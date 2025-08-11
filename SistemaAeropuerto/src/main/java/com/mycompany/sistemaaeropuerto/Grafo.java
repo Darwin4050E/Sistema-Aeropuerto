@@ -6,174 +6,105 @@ package com.mycompany.sistemaaeropuerto;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
 
 /**
  *
  * @author Grupo 1 - P1
+ * @param <V>
  * @param <E>
  */
 
-public class Grafo<E> {
+public class Grafo<V,E> {
     
-    private int MAX = 20;
-    private int[][] matrizAdyacencia;
-    private E[] vertices;
+    // Atributos:
+
+    private List<Vertice<V,E>> vertices;
     private boolean esDirigido;
 
-    public Grafo(boolean esDirigido){
+    // Métodos:
+
+    public Grafo(boolean esDirigido) {
         this.esDirigido = esDirigido;
-        this.matrizAdyacencia = new int[MAX][MAX];
-        this.vertices = (E[]) new Object[MAX];
+        this.vertices = new LinkedList<>();
     }
 
-    private int obtenerIndiceVertice(E vertice){
-        if(vertice == null){
-            return -1;
+    private Vertice<V,E> obtenerVertice(V contenido){
+        if(contenido == null){
+            return null;
         }
-        for(int i = 0; i < MAX; i++){
-            if(vertices[i] != null && vertices[i].equals(vertice)){
-                return i;
+        for(Vertice<V,E> vertice : vertices){
+            if(vertice.getContenido().equals(contenido)){
+                return vertice;
             }
         }
-        return -1;
+        return null;
     }
 
-    public void agregarVertice(E vertice){
-        if(vertice == null){
-            return;
+    private Arista<V,E> obtenerArista(V contenidoOrigen, V contenidoDestino){
+        if(contenidoOrigen == null || contenidoDestino == null){
+            return null;
         }
-        for(int i = 0; i < MAX; i++){
-            if(vertices[i] == null){
-                vertices[i] = vertice;
-                break;
-            }
-        }
-    }
-
-    public void eliminarVertice(E vertice){
-        if(vertice == null){
-            return;
-        }
-        for(int i = 0; i < MAX; i++){
-            if(vertices[i] != null && vertices[i].equals(vertice)){ 
-                vertices[i] = null;
-                for(int j = 0; j < MAX; j++){
-                    matrizAdyacencia[i][j] = 0;
-                    matrizAdyacencia[j][i] = 0;
+        Vertice<V,E> verticeOrigen = this.obtenerVertice(contenidoOrigen);
+        Vertice<V,E> verticeDestino = this.obtenerVertice(contenidoDestino);
+        if(verticeOrigen != null && verticeDestino != null){
+            for(Arista<V,E> arista : verticeOrigen.getAristas()){
+                if(arista.getVerticeDestino().equals(verticeDestino)){
+                    return arista;
                 }
             }
         }
+        return null;
     }
 
-    public void agregarArista(E verticeOrigen, E verticeDestino, int peso){
-        if(verticeOrigen == null || verticeDestino == null || peso <= 0){
+    public void agregarVertice(V contenido){
+        if(contenido == null){
             return;
         }
-        int indiceOrigen = obtenerIndiceVertice(verticeOrigen);
-        int indiceDestino = obtenerIndiceVertice(verticeDestino);
-        if(indiceOrigen != -1 && indiceDestino != -1){
-            matrizAdyacencia[indiceOrigen][indiceDestino] = peso;
-            if(!esDirigido){
-                matrizAdyacencia[indiceDestino][indiceOrigen] = peso;
-            }
-        }
+        this.vertices.add(new Vertice<>(contenido));
     }
 
-    public void eliminarArista(E verticeOrigen, E verticeDestino){
-        if(verticeOrigen == null || verticeDestino == null){
+    public void eliminarVertice(V contenido){
+        if(contenido == null){
             return;
         }
-        agregarArista(verticeOrigen, verticeDestino, 0);
-    }
-
-    public boolean sonAdyacentes(E verticeOrigen, E verticeDestino){
-        if(verticeOrigen == null || verticeDestino == null){
-            return false;
-        }
-        int indiceOrigen = obtenerIndiceVertice(verticeOrigen);
-        int indiceDestino = obtenerIndiceVertice(verticeDestino);
-        if(indiceOrigen != -1 && indiceDestino != -1){
-            return matrizAdyacencia[indiceOrigen][indiceDestino] > 0;
-        }
-        return false;
-    }
-
-    public List<E> recorrerEnAnchura(E verticeInicio){
-        List<E> recorrido = new LinkedList<>();
-        int indiceVerticeInicio = obtenerIndiceVertice(verticeInicio);
-        if(verticeInicio == null || indiceVerticeInicio == -1){
-            return recorrido;
-        }
-        boolean[] visitados = new boolean[MAX];
-        Queue<E> colaVertices = new LinkedList<>();
-        colaVertices.offer(verticeInicio);
-        visitados[indiceVerticeInicio] = true;
-        while(!colaVertices.isEmpty()){
-            E verticeActual = colaVertices.poll();
-            recorrido.add(verticeActual);
-            int indiceVerticeActual = obtenerIndiceVertice(verticeActual);
-            for(int j = 0; j < MAX; j++){
-                if(matrizAdyacencia[indiceVerticeActual][j] > 0 && !visitados[j]){
-                    colaVertices.offer(vertices[j]);
-                    visitados[j] = true;
-                }
-            }
-        }
-        return recorrido;
-    }
-
-    public List<E> recorrerEnProfundidad(E verticeInicio){
-        List<E> recorrido = new LinkedList<>();
-        int indiceVerticeInicio = obtenerIndiceVertice(verticeInicio);
-        if(verticeInicio == null || indiceVerticeInicio == -1){
-            return recorrido;
-        }
-        boolean[] visitados = new boolean[MAX];
-        Stack<E> pilaVertices = new Stack<>();
-        pilaVertices.push(verticeInicio);
-        visitados[indiceVerticeInicio] = true;
-        while(!pilaVertices.isEmpty()){
-            E verticeActual = pilaVertices.pop();
-            recorrido.add(verticeActual);
-            int indiceVerticeActual = obtenerIndiceVertice(verticeActual);
-            for(int j = 0; j < MAX; j++){
-                if(matrizAdyacencia[indiceVerticeActual][j] > 0 && !visitados[j]){
-                    pilaVertices.push(vertices[j]);
-                    visitados[j] = true;
-                }
-            }
-        }
-        return recorrido;
-    }
-
-    public void imprimirGrafo() {
-        System.out.println("Vértices:");
-        for (int i = 0; i < MAX; i++) {
-            if (vertices[i] != null) {
-                System.out.print(vertices[i] + "\t");
-            }
-        }
-        System.out.println("\n\nMatriz de Adyacencia:");
-        // Encabezados de columnas
-        System.out.print("\t");
-        for (int i = 0; i < MAX; i++) {
-            if (vertices[i] != null) {
-                System.out.print(vertices[i] + "\t");
-            }
-        }
-        System.out.println();
-        // Filas con sus respectivos valores
-        for (int i = 0; i < MAX; i++) {
-            if (vertices[i] != null) {
-                System.out.print(vertices[i] + "\t");
-                for (int j = 0; j < MAX; j++) {
-                    if (vertices[j] != null) {
-                        System.out.print(matrizAdyacencia[i][j] + "\t");
+        Vertice<V,E> verticeEliminar = this.obtenerVertice(contenido);
+        if(verticeEliminar != null){
+            for(Vertice<V,E> vertice : vertices){
+                for(Arista<V,E> arista : vertice.getAristas()){
+                    if(arista.getVerticeDestino().equals(verticeEliminar)){
+                        vertice.getAristas().remove(arista);
                     }
                 }
-                System.out.println();
+            }
+            vertices.remove(verticeEliminar);
+        }
+
+    }
+
+    public void agregarArista(E dato, V contenidoOrigen, V contenidoDestino, int peso){
+        if(dato == null || contenidoOrigen == null || contenidoDestino == null || peso < 0){
+            return;
+        }
+        Vertice<V,E> verticeOrigen = this.obtenerVertice(contenidoOrigen);
+        Vertice<V,E> verticeDestino = this.obtenerVertice(contenidoDestino);
+        if(verticeOrigen != null && verticeDestino != null){
+            verticeOrigen.getAristas().add(new Arista<>(dato, verticeOrigen, verticeDestino, peso));
+            if(!esDirigido){
+                verticeDestino.getAristas().add(new Arista<>(dato, verticeDestino, verticeOrigen, peso));
+            }
+        }
+    }
+
+    public void eliminarArista(V contenidoOrigen, V contenidoDestino){
+        if(contenidoOrigen == null || contenidoDestino == null){
+            return;
+        }
+        Vertice<V,E> verticeOrigen = this.obtenerVertice(contenidoOrigen);
+        Vertice<V,E> verticeDestino = this.obtenerVertice(contenidoDestino);
+        if(verticeOrigen != null && verticeDestino != null){
+            verticeOrigen.getAristas().remove(this.obtenerArista(contenidoOrigen, contenidoDestino));
+            if(!esDirigido){
+                verticeDestino.getAristas().remove(this.obtenerArista(contenidoDestino, contenidoOrigen));
             }
         }
     }
