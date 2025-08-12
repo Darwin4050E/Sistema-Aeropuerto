@@ -14,12 +14,18 @@ import java.util.List;
  * @param <E>
  */
 
-public class Vertice<V,E> {
+public class Vertice<V,E> implements Comparable<Vertice<V,E>> {
     
     // Atributos:
 
     private V contenido;
     private List<Arista<V,E>> aristas;
+    
+    // Atributos exclusivos para ejecutar Dijkstra:
+
+    private boolean estaVisitado;
+    private int distanciaAcumulada;
+    private Vertice<V,E> verticePredecesor;
 
     // Métodos:
 
@@ -42,6 +48,35 @@ public class Vertice<V,E> {
 
     public void setAristas(List<Arista<V,E>> aristas) {
         this.aristas = aristas;
+    }
+    
+    public boolean getEstaVisitado() {
+        return estaVisitado;
+    }
+
+    public void setEstaVisitado(boolean estaVisitado) {
+        this.estaVisitado = estaVisitado;
+    }
+
+    public int getDistanciaAcumulada() {
+        return distanciaAcumulada;
+    }
+
+    public void setDistanciaAcumulada(int distanciaAcumulada) {
+        this.distanciaAcumulada = distanciaAcumulada;
+    }
+
+    public Vertice<V, E> getVerticePredecesor() {
+        return verticePredecesor;
+    }
+
+    public void setVerticePredecesor(Vertice<V, E> verticePredecesor) {
+        this.verticePredecesor = verticePredecesor;
+    }
+
+    @Override
+    public int compareTo(Vertice<V, E> o) {
+        return o.getDistanciaAcumulada() - this.distanciaAcumulada;
     }
     
 }

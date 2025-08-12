@@ -6,6 +6,9 @@ package com.mycompany.sistemaaeropuerto;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  *
@@ -26,6 +29,22 @@ public class Grafo<V,E> {
     public Grafo(boolean esDirigido) {
         this.esDirigido = esDirigido;
         this.vertices = new LinkedList<>();
+    }
+    
+    public List<Vertice<V, E>> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(List<Vertice<V, E>> vertices) {
+        this.vertices = vertices;
+    }
+
+    public boolean getEsDirigido() {
+        return esDirigido;
+    }
+
+    public void setEsDirigido(boolean esDirigido) {
+        this.esDirigido = esDirigido;
     }
 
     private Vertice<V,E> obtenerVertice(V contenido){
@@ -54,6 +73,14 @@ public class Grafo<V,E> {
             }
         }
         return null;
+    }
+    
+    private void reiniciarVertices(){
+        for(Vertice<V,E> vertice : vertices){
+            vertice.setEstaVisitado(false);
+            vertice.setDistanciaAcumulada(Integer.MAX_VALUE);
+            vertice.setVerticePredecesor(null);
+        }
     }
 
     public void agregarVertice(V contenido){
@@ -107,6 +134,98 @@ public class Grafo<V,E> {
                 verticeDestino.getAristas().remove(this.obtenerArista(contenidoDestino, contenidoOrigen));
             }
         }
+    }
+    
+    public List<Vertice<V,E>> recorrerEnAnchura(V contenido){
+        List<Vertice<V,E>> recorrido = new LinkedList<>();
+        if(contenido == null){
+            return recorrido;
+        }
+        boolean[] visitados = new boolean[vertices.size()];
+        Queue<Vertice<V,E>> colaVertices = new LinkedList<>();
+        Vertice<V,E> verticeInicio = this.obtenerVertice(contenido);
+        if(verticeInicio != null){
+            colaVertices.offer(verticeInicio);
+            visitados[vertices.indexOf(verticeInicio)] = true;
+        }
+        while(!colaVertices.isEmpty()){
+            Vertice<V,E> verticeActual = colaVertices.poll();
+            recorrido.add(verticeActual);
+            for(Arista<V,E> arista : verticeActual.getAristas()){
+                Vertice<V,E> verticeDestino = arista.getVerticeDestino();
+                if(verticeDestino != null && !visitados[vertices.indexOf(verticeDestino)]){
+                    colaVertices.offer(verticeDestino);
+                    visitados[vertices.indexOf(verticeDestino)] = true;
+                }
+            }
+        }
+        return recorrido;
+    }
+    
+    public List<Vertice<V,E>> recorrerEnProfundidad(V contenido){
+        List<Vertice<V,E>> recorrido = new LinkedList<>();
+        if(contenido == null){
+            return recorrido;
+        }
+        boolean[] visitados = new boolean[vertices.size()];
+        Stack<Vertice<V,E>> pilaVertices = new Stack<>();
+        Vertice<V,E> verticeInicio = this.obtenerVertice(contenido);
+        if(verticeInicio != null){
+            pilaVertices.push(verticeInicio);
+            visitados[vertices.indexOf(verticeInicio)] = true;
+        }
+        while(!pilaVertices.isEmpty()){
+            Vertice<V,E> verticeActual = pilaVertices.pop();
+            recorrido.add(verticeActual);
+            for(Arista<V,E> arista : verticeActual.getAristas()){
+                Vertice<V,E> verticeDestino = arista.getVerticeDestino();
+                if(verticeDestino != null && !visitados[vertices.indexOf(verticeDestino)]){
+                    pilaVertices.push(verticeDestino);
+                    visitados[vertices.indexOf(verticeDestino)] = true;
+                }
+            }
+        }
+        return recorrido;
+    }
+
+    public List<Vertice<V,E>> ejecutarDijkstra(V contenidoOrigen, V contenidoDestino){
+        List<Vertice<V,E>> recorrido = new LinkedList<>();
+        if(contenidoOrigen == null || contenidoDestino == null){
+            return recorrido;
+        }
+        Vertice<V,E> verticeOrigen = this.obtenerVertice(contenidoOrigen);
+        Vertice<V,E> verticeDestino = this.obtenerVertice(contenidoDestino);
+        if(verticeOrigen == null || verticeDestino == null){
+            return recorrido;
+        }
+        this.reiniciarVertices();
+        PriorityQueue<Vertice<V,E>> colaVertices = new PriorityQueue<>();
+        colaVertices.offer(verticeOrigen);
+        verticeOrigen.setDistanciaAcumulada(0);
+        while(!colaVertices.isEmpty()){
+            Vertice<V,E> verticeActual = colaVertices.poll();
+            if(!verticeActual.getEstaVisitado()){
+                verticeActual.setEstaVisitado(true);
+                for(Arista<V,E> arista : verticeActual.getAristas()){
+                    Vertice<V,E> verticeAdyacente = arista.getVerticeDestino();
+                    int nuevaDistanciaAcumulada = verticeActual.getDistanciaAcumulada() + arista.getPeso();
+                    if(nuevaDistanciaAcumulada < verticeAdyacente.getDistanciaAcumulada()){
+                        verticeAdyacente.setDistanciaAcumulada(nuevaDistanciaAcumulada);
+                        verticeAdyacente.setVerticePredecesor(verticeActual);
+                        colaVertices.offer(verticeAdyacente);
+                    }
+                }
+            }
+        }
+        Vertice<V,E> verticeActual = verticeDestino;
+        while(verticeActual != null){
+            recorrido.add(0, verticeActual);
+            verticeActual = verticeActual.getVerticePredecesor();
+        }
+        if(recorrido.isEmpty() || recorrido.get(0) != verticeOrigen){
+            recorrido.clear();
+        }
+        return recorrido;
     }
     
 }
