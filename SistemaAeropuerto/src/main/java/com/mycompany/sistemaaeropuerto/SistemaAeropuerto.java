@@ -17,43 +17,43 @@ public class SistemaAeropuerto {
         
                 
         // Crear grafo dirigido
-        Grafo<String, String> grafo = new Grafo<>(true);
+        Graph<String, String> grafo = new Graph<>((a,b) -> a.compareTo(b), true);
 
         // Crear vértices
-        Vertice<String, String> a = new Vertice<>("A");
-        Vertice<String, String> b = new Vertice<>("B");
-        Vertice<String, String> c = new Vertice<>("C");
-        Vertice<String, String> d = new Vertice<>("D");
-        Vertice<String, String> e = new Vertice<>("E");
+        Vertex<String, String> a = new Vertex<>("A");
+        Vertex<String, String> b = new Vertex<>("B");
+        Vertex<String, String> c = new Vertex<>("C");
+        Vertex<String, String> d = new Vertex<>("D");
+        Vertex<String, String> e = new Vertex<>("E");
 
         // Agregarlos a la lista de vértices del grafo
-        grafo.getVertices().add(a);
-        grafo.getVertices().add(b);
-        grafo.getVertices().add(c);
-        grafo.getVertices().add(d);
-        grafo.getVertices().add(e);
+        grafo.getVertexs().add(a);
+        grafo.getVertexs().add(b);
+        grafo.getVertexs().add(c);
+        grafo.getVertexs().add(d);
+        grafo.getVertexs().add(e);
 
         // Crear aristas (con peso)
-        a.getAristas().add(new Arista<>("A-B", a, b, 4));
-        a.getAristas().add(new Arista<>("A-C", a, c, 2));
+        a.getEdges().add(new Edge<>("A-B", a, b, 4));
+        a.getEdges().add(new Edge<>("A-C", a, c, 2));
 
-        b.getAristas().add(new Arista<>("B-C", b, c, 5));
-        b.getAristas().add(new Arista<>("B-D", b, d, 10));
+        b.getEdges().add(new Edge<>("B-C", b, c, 5));
+        b.getEdges().add(new Edge<>("B-D", b, d, 10));
 
-        c.getAristas().add(new Arista<>("C-E", c, e, 3));
+        c.getEdges().add(new Edge<>("C-E", c, e, 3));
 
-        e.getAristas().add(new Arista<>("E-D", e, d, 4));
+        e.getEdges().add(new Edge<>("E-D", e, d, 4));
 
         // Ejecutar Dijkstra
-        List<Vertice<String, String>> camino = grafo.ejecutarDijkstra("A", "D");
+        List<Vertex<String, String>> camino = grafo.runDijkstra("A", "D");
 
         // Imprimir resultado
         if (!camino.isEmpty()) {
             System.out.print("Camino más corto de A a D: ");
-            for (Vertice<String, String> v : camino) {
-                System.out.print(v.getContenido() + " ");
+            for (Vertex<String, String> v : camino) {
+                System.out.print(v.getContent() + " ");
             }
-            System.out.println("\nDistancia total: " + camino.get(camino.size() - 1).getDistanciaAcumulada());
+            System.out.println("\nDistancia total: " + camino.get(camino.size() - 1).getCumulativeDistance());
         } else {
             System.out.println("No existe camino entre A y D");
         }
