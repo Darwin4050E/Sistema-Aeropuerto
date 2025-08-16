@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package com.mycompany.sistemaaeropuerto;
+package ec.edu.espol.sistemaaeropuerto.models;
 
 import java.time.LocalTime;
 
