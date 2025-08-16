@@ -14,7 +14,7 @@ import java.time.LocalTime;
 public class SistemaAeropuerto {
 
     public static void main(String[] args) {
-        
+        /*
         Graph<Airport, Flight> graph = new Graph<>(null, true);
 
         Airport airport1 = new Airport("JFK", "John F. Kennedy International Airport", "New York", "USA", 40.6413, -73.7781);
@@ -32,7 +32,19 @@ public class SistemaAeropuerto {
         graph.addEdge(flight1, airport1, airport2, 0);
         graph.addEdge(flight2, airport2, airport3, 0);
         graph.addEdge(flight3, airport1, airport3, 0);
+        */
+        AVL<Integer,Integer> tree = new AVL<>(Integer::compare);
+
+        tree.insert(30, 30);
+        tree.insert(20, 20);
+        tree.insert(10, 10);  // Rotación derecha.
+        tree.insert(40, 40);
+        tree.insert(50, 50);  // Rotación izquierda.
+        tree.insert(25, 25);  // Rotación izquierda-derecha.
+        tree.insert(5, 5);    // Rotación derecha.
+        tree.insert(15, 15);
         
+        tree.printTree();
     }
     
 }
