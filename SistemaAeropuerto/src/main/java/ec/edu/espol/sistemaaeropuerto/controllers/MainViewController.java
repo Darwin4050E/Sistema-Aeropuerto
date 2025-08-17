@@ -29,8 +29,6 @@ public class MainViewController {
         displayGraph.addEdge("JFK_LHR", "JFK", "LHR", true);
         displayGraph.addEdge("LHR_PKX", "LHR", "PKX", true);
         
-        PersistenceController.graphSerializer(displayGraph);
-        
         FxViewer viewer = new FxViewer(displayGraph, FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);
         
         viewer.enableAutoLayout();
