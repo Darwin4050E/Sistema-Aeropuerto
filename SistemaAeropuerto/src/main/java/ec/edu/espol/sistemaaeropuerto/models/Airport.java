@@ -4,12 +4,13 @@
  */
 package ec.edu.espol.sistemaaeropuerto.models;
 
+import java.io.Serializable;
 /**
  *
  * @author Grupo 1 - P10
  */
 
-public class Airport {
+public class Airport implements Serializable {
     
     // Atributos
 

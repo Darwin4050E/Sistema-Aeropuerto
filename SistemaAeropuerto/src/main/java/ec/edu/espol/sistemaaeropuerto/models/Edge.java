@@ -4,6 +4,7 @@
  */
 package ec.edu.espol.sistemaaeropuerto.models;
 
+import java.io.Serializable;
 /**
  *
  * @author Grupo 1 - P1
@@ -11,7 +12,7 @@ package ec.edu.espol.sistemaaeropuerto.models;
  * @param <E>
  */
 
-public class Edge<V,E> {
+public class Edge<V,E> implements Serializable {
     
     // Atributos:
 

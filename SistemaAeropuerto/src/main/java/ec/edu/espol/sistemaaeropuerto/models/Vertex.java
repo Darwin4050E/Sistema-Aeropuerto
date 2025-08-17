@@ -4,6 +4,7 @@
  */
 package ec.edu.espol.sistemaaeropuerto.models;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @param <E>
  */
 
-public class Vertex<V,E> implements Comparable<Vertex<V,E>> {
+public class Vertex<V,E> implements Comparable<Vertex<V,E>>, Serializable {
     
     // Atributos:
 

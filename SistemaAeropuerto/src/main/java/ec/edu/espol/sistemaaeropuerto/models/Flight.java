@@ -4,13 +4,13 @@
  */
 package ec.edu.espol.sistemaaeropuerto.models;
 import java.time.LocalTime;
-
+import java.io.Serializable;
 /**
  *
  * @author Grupo 1 - P1
  */
 
-public class Flight {
+public class Flight implements Serializable {
     
     // Atributos:
 
