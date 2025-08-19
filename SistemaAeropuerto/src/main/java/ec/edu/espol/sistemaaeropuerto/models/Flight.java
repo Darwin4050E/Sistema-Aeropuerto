@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Flight implements Serializable {
     
     // Atributos:
-
+    
     private String flightNumber;
     private String airline;
     private LocalTime departureTime;
@@ -60,4 +60,8 @@ public class Flight implements Serializable {
         this.arrivalTime = arrivalTime;
     }
     
+    @Override 
+    public String toString() {
+        return flightNumber;
+    }
 }

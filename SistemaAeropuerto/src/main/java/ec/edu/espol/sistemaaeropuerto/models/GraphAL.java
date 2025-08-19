@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @param <E>
  */
 
-public class Graph<V,E> implements Serializable {
+public class GraphAL<V,E> implements Serializable {
     
     // Atributos:
 
@@ -29,7 +29,7 @@ public class Graph<V,E> implements Serializable {
 
     // Métodos:
 
-    public Graph(Comparator<V> cmp, boolean isDirected) {
+    public GraphAL(Comparator<V> cmp, boolean isDirected) {
         this.cmp = cmp;
         this.isDirected = isDirected;
         this.vertexs = new LinkedList<>();

@@ -80,4 +80,9 @@ public class Airport implements Serializable {
         this.longitude = longitude;
     }
     
+    @Override
+    public String toString()
+    {
+        return this.code;
+    }
 }

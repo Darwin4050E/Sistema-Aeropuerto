@@ -18,7 +18,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("mainView"), 1280, 720);
         stage.setScene(scene);
-        stage.setTitle("FlightTrack");
+        stage.setTitle("FlightControl");
         stage.show();
     }
 
