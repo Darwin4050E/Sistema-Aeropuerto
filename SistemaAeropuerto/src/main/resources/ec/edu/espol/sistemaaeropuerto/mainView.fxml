@@ -22,7 +22,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="102.0" prefWidth="1280.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="airportBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="200.0" text="Gestionar Aeropuertos">
+            <Button fx:id="airportBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToAirportView" prefWidth="200.0" text="Gestionar Aeropuertos">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
