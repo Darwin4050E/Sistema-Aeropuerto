@@ -1,5 +1,6 @@
 package ec.edu.espol.flightcontrol.controllers;
 
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import ec.edu.espol.flightcontrol.App;
 import ec.edu.espol.flightcontrol.utils.*;
 import ec.edu.espol.flightcontrol.models.*;
@@ -12,6 +13,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
+// Imports para JGraphX y la integración con JavaFX
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.view.mxGraph;
+import javafx.embed.swing.SwingNode;
+import javax.swing.BorderFactory;
+import javax.swing.SwingUtilities;
+import javafx.scene.layout.StackPane;
 
 public class MainViewController implements GraphSubscriber {
 
@@ -49,11 +57,15 @@ public class MainViewController implements GraphSubscriber {
     
     public void refreshGraphView() {
         GraphAL currentGraph = GraphContext.getCurrentGraph();
+        
         if (currentGraph == null) {
             graphPane.setCenter(null);
             return;
         }
-        displayGraph(currentGraph);
+        
+        //displayGraph(currentGraph);
+        displayGraph2(currentGraph);
+        
     }
     
     public void displayGraph(GraphAL<Airport, Flight> graph) {
@@ -86,6 +98,34 @@ public class MainViewController implements GraphSubscriber {
         graphPane.setCenter(graphTextArea);
     }
     
+    private void displayGraph2(GraphAL<String, String> myFlightGraph) {
+        final SwingNode swingNode = new SwingNode();
+        graphPane.setStyle("-fx-background-color: white;");
+
+        SwingUtilities.invokeLater(() -> {
+            mxGraph graph = GraphAdapter.toJGraphX(myFlightGraph);
+
+            graph.setCellsMovable(false);
+            graph.setCellsResizable(false);
+            graph.setCellsEditable(false);
+
+            mxHierarchicalLayout layout = new mxHierarchicalLayout(graph);
+            layout.execute(graph.getDefaultParent());
+
+            mxGraphComponent graphComponent = new mxGraphComponent(graph);
+            graphComponent.setConnectable(false);
+            graphComponent.setBackground(java.awt.Color.WHITE);
+            graphComponent.getViewport().setBackground(java.awt.Color.WHITE);
+            graphComponent.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+            swingNode.setContent(graphComponent);
+        });
+
+        StackPane wrapper = new StackPane(swingNode);
+        graphPane.setCenter(wrapper);
+        
+    }
+
+
     @FXML
     private void switchToAirportView() throws IOException {
         App.setRoot("airport");
@@ -100,4 +140,5 @@ public class MainViewController implements GraphSubscriber {
             saveChangesBtn.setDisable(true);
         }
     }
+    
 }

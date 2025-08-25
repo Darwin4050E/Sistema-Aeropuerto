@@ -10,7 +10,10 @@ import ec.edu.espol.flightcontrol.App;
 import java.io.IOException;
 import java.util.List;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -24,7 +27,7 @@ import javafx.scene.layout.RowConstraints;
 public class AirportController implements GraphSubscriber {
     
     @FXML
-    private GridPane airportGrid; // Asegúrate que el fx:id en el FXML sea "airportGrid"
+    private GridPane airportGrid;
 
     @FXML
     public void initialize() {
@@ -45,6 +48,7 @@ public class AirportController implements GraphSubscriber {
 
         int rowIndex = 1; 
         for (Vertex<Airport, Flight> vertex: vertexs) {
+            
             // para cada aeropuerto en la lista de vertices
             RowConstraints rowConst = new RowConstraints();
             rowConst.setMinHeight(40);
@@ -74,14 +78,34 @@ public class AirportController implements GraphSubscriber {
     }
 
     private void handleEdit(Airport airport) {
-        System.out.println("Editar aeropuerto: " + airport.getName());
-        // logica de edicion de aeropuerto
+        try {
+           FXMLLoader loader = new FXMLLoader(App.class.getResource("airportEditionView.fxml"));
+           Parent root = loader.load();
+           AirportEditionController editController = loader.getController();
+           editController.initData(airport);
+           App.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void handleDelete(Airport airport) {
-        System.out.println("Eliminar aeropuerto: " + airport.getName());
-        // logica de eliminacion de aeropuerto
-
+    private void handleDelete(Airport airport){
+        boolean confirmed = UtilController.showDeleteConfirmation(airport.getName());
+        if (confirmed) {
+            GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
+            if (currentGraph.removeVertex(airport)) {
+                UtilController.showAlert(Alert.AlertType.INFORMATION, "Éxito", "Aeropuerto '" + airport.getName() + "' eliminado correctamente.");
+                App.setUnsavedChanges(true);
+                GraphContext.updateGraph(currentGraph);
+                try {
+                    switchToMain();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                UtilController.showAlert(Alert.AlertType.ERROR, "Error al Eliminar", "Ocurrió un error durante la eliminación.");
+            }
+        }
     }
         
     @FXML

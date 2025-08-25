@@ -52,10 +52,20 @@ public class UtilController {
         if (result.isPresent()) {
             if (result.get() == saveButton) {
                 PersistenceController.graphSerializer(GraphContext.getCurrentGraph());
-                Platform.exit(); 
+                System.exit(0); 
             } else if (result.get() == exitButton) {
-                Platform.exit(); 
+                System.exit(0);
             }
         }
+    }
+    
+    public static boolean showDeleteConfirmation(String itemName) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar Eliminación");
+        alert.setHeaderText("Estás a punto de eliminar: " + itemName);
+        alert.setContentText("Esta acción no se puede deshacer. ¿Estás seguro?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return (result.isPresent()) && (result.get() == ButtonType.OK);
     }
 }

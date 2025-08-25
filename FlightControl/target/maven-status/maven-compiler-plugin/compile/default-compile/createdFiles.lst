@@ -3,8 +3,8 @@ ec/edu/espol/flightcontrol/controllers/AirportCreationController.class
 ec/edu/espol/flightcontrol/utils/GraphAdapter.class
 ec/edu/espol/flightcontrol/models/Vertex.class
 ec/edu/espol/flightcontrol/models/GraphAL.class
+ec/edu/espol/flightcontrol/controllers/AirportEditionController.class
 ec/edu/espol/flightcontrol/controllers/RouteController.class
-module-info.class
 ec/edu/espol/flightcontrol/models/Edge.class
 ec/edu/espol/flightcontrol/utils/GraphSubscriber.class
 ec/edu/espol/flightcontrol/utils/GraphContext.class

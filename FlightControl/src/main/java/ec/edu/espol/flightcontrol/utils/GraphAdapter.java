@@ -3,46 +3,59 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ec.edu.espol.flightcontrol.utils;
-/*
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.implementations.SingleGraph;
-import ec.edu.espol.sistemaaeropuerto.models.*;
-*/
+import ec.edu.espol.flightcontrol.models.*;
+import java.util.HashMap;
+import java.util.Map;
+import com.mxgraph.view.mxGraph;
+import com.mxgraph.util.mxConstants;
+import com.mxgraph.view.mxStylesheet;
+import java.util.Hashtable;
+
 /**
  *
  * @author gabriel
  */
 public class GraphAdapter {
-    /*
-    public static <V,E> Graph toGraphStream(GraphAL<V,E> graphAL) {
-        Graph gsGraph = new SingleGraph("Red de Vuelos");
+    public static <V,E> mxGraph toJGraphX(GraphAL<V,E> graphAL) {
+        mxGraph jgxGraph = new mxGraph();
+        Object parent = jgxGraph.getDefaultParent();
 
-        // Estilos CSS
-        gsGraph.setAttribute("ui.stylesheet", 
-            "node { size: 15px; fill-color: #1E90FF; text-size: 12px; text-alignment: under; } " +
-            "edge { shape: line; size: 2px; fill-color: #777; arrow-size: 10px, 3px; }");
+        mxStylesheet stylesheet = jgxGraph.getStylesheet();
+        Hashtable<String, Object> style = new Hashtable<>();
+        style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+        style.put(mxConstants.STYLE_FILLCOLOR, "#C3D9FF");
+        style.put(mxConstants.STYLE_STROKECOLOR, "#6482B9");
+        style.put(mxConstants.STYLE_FONTCOLOR, "#333333");
+        style.put(mxConstants.STYLE_FONTSIZE, 12);
+        style.put(mxConstants.STYLE_FONTSTYLE, mxConstants.FONT_BOLD);
+        stylesheet.putCellStyle("ROUNDED", style);
         
-        // Agregar todos los vertices al grafo
-        for (Vertex<V,E> v : graphAL.getVertexs()) {
-            String id = v.getContent().toString(); // usa código único del aeropuerto
-            gsGraph.addNode(id).setAttribute("ui.label", id);
-        }
+        Map<Vertex<V, E>, Object> vertexMap = new HashMap<>();
 
-        // Añadir aristas (luego de tener todos los vertices)
-        for (Vertex<V,E> v : graphAL.getVertexs()) {
-            for (Edge<V,E> e : v.getEdges()) {
-                String source = e.getSourceVertex().getContent().toString();
-                String target = e.getTargetVertex().getContent().toString();
-                String edgeId = source + "_" + target;
+        jgxGraph.getModel().beginUpdate();
+        try {
+            for (Vertex<V, E> v : graphAL.getVertexs()) {
+                String label = (v.getContent() != null) ? v.getContent().toString() : "";
+                Object jgxVertex = jgxGraph.insertVertex(parent, null, label, 0, 0, 60, 60, "ROUNDED");
+                vertexMap.put(v, jgxVertex);
+            }
 
-                if (gsGraph.getEdge(edgeId) == null) {
-                    gsGraph.addEdge(edgeId, source, target, graphAL.getIsDirected())
-                           .setAttribute("ui.label", e.getData().toString());
+            String edgeStyle = "endArrow=classic;";
+
+            for (Vertex<V, E> sourceVertexAL : graphAL.getVertexs()) {
+                for (Edge<V, E> edgeAL : sourceVertexAL.getEdges()) {
+                    Object jgxSource = vertexMap.get(sourceVertexAL);
+                    Object jgxTarget = vertexMap.get(edgeAL.getTargetVertex());
+
+                    if (jgxSource != null && jgxTarget != null) {
+                        String label = String.valueOf(edgeAL.getWeight());
+                        jgxGraph.insertEdge(parent, null, label, jgxSource, jgxTarget, edgeStyle);
+                    }
                 }
             }
+        } finally {
+            jgxGraph.getModel().endUpdate();
         }
-
-        return gsGraph;
+        return jgxGraph;
     }
-*/
 }

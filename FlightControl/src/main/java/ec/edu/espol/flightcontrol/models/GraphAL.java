@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 import java.io.Serializable;
+import java.util.Iterator;
 
 /**
  *
@@ -102,7 +103,8 @@ public class GraphAL<V,E> implements Serializable {
         this.vertexs.add(new Vertex<>(content));
         return true;
     }
-
+    
+    /*
     public boolean removeVertex(V content){
         if(content == null){
             return false;
@@ -121,6 +123,27 @@ public class GraphAL<V,E> implements Serializable {
         }
         return false;
     }
+*/
+    
+    public boolean removeVertex(V content){
+
+        Vertex<V,E> vertexToRemove = this.findVertex(content);
+        if(vertexToRemove == null) return false;
+
+        for(Vertex<V,E> vertex : vertexs){
+            Iterator<Edge<V,E>> it = vertex.getEdges().iterator();
+            while(it.hasNext()){
+                Edge<V,E> edge = it.next();
+                if(cmp.compare(edge.getTargetVertex().getContent(), vertexToRemove.getContent()) == 0){
+                    it.remove();
+                }
+            }
+        }
+        
+        vertexs.remove(vertexToRemove);
+        return true;
+    }
+
 
     public boolean addEdge(E data, V sourceContent, V targetContent, int weight){
         if(data == null || sourceContent == null || targetContent == null || weight < 0){
