@@ -58,7 +58,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="37.0" prefWidth="775.0" promptText="Ingresa el código del aeropuerto" GridPane.columnIndex="1">
+                  <TextField fx:id="codeInput" prefHeight="37.0" prefWidth="775.0" promptText="Ingresa el código del aeropuerto" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>
@@ -71,7 +71,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="37.0" prefWidth="775.0" promptText="Ingresa el nombre del aeropuerto" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="nameInput" prefHeight="37.0" prefWidth="775.0" promptText="Ingresa el nombre del aeropuerto" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -84,7 +84,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="37.0" prefWidth="775.0" promptText="Ingresa la ciudad del aeropuerto" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="cityInput" prefHeight="37.0" prefWidth="775.0" promptText="Ingresa la ciudad del aeropuerto" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -97,7 +97,7 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="37.0" prefWidth="775.0" promptText="Ingresa el país del aeropuerto" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <TextField fx:id="countryInput" prefHeight="37.0" prefWidth="775.0" promptText="Ingresa el país del aeropuerto" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -129,12 +129,12 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="75.0" prefWidth="1180.0" spacing="30.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="cancelAirportBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Cancelar" textAlignment="CENTER">
+                  <Button fx:id="cancelAirportBtn" mnemonicParsing="false" onAction="#switchToAirports" prefHeight="40.0" prefWidth="100.0" text="Cancelar" textAlignment="CENTER">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="saveAirportBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Guardar" textAlignment="CENTER">
+                  <Button fx:id="saveAirportBtn" mnemonicParsing="false" onAction="#saveAirport" prefHeight="40.0" prefWidth="100.0" text="Guardar" textAlignment="CENTER">
                      <font>
                         <Font size="15.0" />
                      </font>

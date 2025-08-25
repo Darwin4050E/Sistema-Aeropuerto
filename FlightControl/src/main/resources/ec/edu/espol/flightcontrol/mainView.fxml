@@ -8,17 +8,6 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.flightcontrol.controllers.MainViewController">
-   <top>
-      <HBox alignment="CENTER" prefHeight="83.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="392.0" text="Red de Vuelos" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="37.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-   </top>
    <bottom>
       <HBox alignment="CENTER" prefHeight="102.0" prefWidth="1280.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -58,9 +47,36 @@
       </HBox>
    </bottom>
    <center>
-      <BorderPane fx:id="graphPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="graphPane" prefHeight="527.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding></BorderPane>
    </center>
+   <top>
+      <BorderPane prefHeight="83.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+         <center>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="392.0" text="Red de Vuelos" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="37.0" />
+               </font>
+            </Label>
+         </center>
+         <right>
+            <Button fx:id="saveChangesBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveGraphChanges" text="Guardar Cambios" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </Button>
+         </right>
+         <padding>
+            <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+         </padding>
+      </BorderPane>
+   </top>
 </BorderPane>

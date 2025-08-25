@@ -18,18 +18,20 @@ public class Airport implements Serializable {
     private String name;
     private String city;
     private String country;
-    private double latitude;
-    private double longitude;
+    private String imagePath;
     
     // Métodos
 
-    public Airport(String code, String name, String city, String country, double latitude, double longitude) {
+    public Airport(String code, String name, String city, String country) {
+        this(code, name, city, country, "");
+    }
+    
+    public Airport(String code, String name, String city, String country, String imagePath) {
         this.code = code;
         this.name = name;
         this.city = city;
         this.country = country;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.imagePath = imagePath;
     }
 
     public String getCode() {
@@ -64,20 +66,12 @@ public class Airport implements Serializable {
         this.country = country;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
     
     @Override

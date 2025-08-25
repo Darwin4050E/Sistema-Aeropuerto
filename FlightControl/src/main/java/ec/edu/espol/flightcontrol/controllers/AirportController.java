@@ -21,7 +21,7 @@ import javafx.scene.layout.RowConstraints;
  *
  * @author grupo1
  */
-public class AirportController {
+public class AirportController implements GraphSubscriber {
     
     @FXML
     private GridPane airportGrid; // Asegúrate que el fx:id en el FXML sea "airportGrid"
@@ -47,7 +47,7 @@ public class AirportController {
         for (Vertex<Airport, Flight> vertex: vertexs) {
             // para cada aeropuerto en la lista de vertices
             RowConstraints rowConst = new RowConstraints();
-            rowConst.setMinHeight(40); // <-- Puedes aumentar este número para más altura
+            rowConst.setMinHeight(40);
             airportGrid.getRowConstraints().add(rowConst);
             
             Airport airport = vertex.getContent();
@@ -75,16 +75,13 @@ public class AirportController {
 
     private void handleEdit(Airport airport) {
         System.out.println("Editar aeropuerto: " + airport.getName());
-        // Aquí va tu lógica para abrir una ventana de edición con los datos del aeropuerto
+        // logica de edicion de aeropuerto
     }
 
     private void handleDelete(Airport airport) {
         System.out.println("Eliminar aeropuerto: " + airport.getName());
-        // 1. Lógica para eliminar el aeropuerto del grafo
-        // GraphContext.getCurrentGraph().removeVertex(airport);
-        
-        // 2. Volver a poblar el grid para que se actualice la vista
-        // populateGrid();
+        // logica de eliminacion de aeropuerto
+
     }
         
     @FXML
@@ -96,5 +93,10 @@ public class AirportController {
     @FXML
     private void switchToAirportCreation() throws IOException {
         App.setRoot("airportCreationView");
+    }
+    
+    @Override
+    public void update() {
+        populateGrid();
     }
 }

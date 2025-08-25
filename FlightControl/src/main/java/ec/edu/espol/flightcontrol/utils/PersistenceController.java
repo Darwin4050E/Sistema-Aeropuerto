@@ -48,7 +48,6 @@ public class PersistenceController {
     }
     
     public static void graphSerializer(GraphAL graph){
-        
         Path saveFile = getSaveFilePath();
         if (saveFile == null) {
             System.out.println("Error al intentar obtener el path");
@@ -85,16 +84,16 @@ public class PersistenceController {
         GraphAL<Airport, Flight> graph = new GraphAL<>(new AirportComparator(), true);
 
         // Aeropuertos
-        Airport pkx = new Airport("PKX", "Beijing Daxing International Airport", "Beijing", "China", 39.5098, 116.4100);
-        Airport jfk = new Airport("JFK", "John F. Kennedy International Airport", "New York", "USA", 40.6413, -73.7781);
-        Airport lax = new Airport("LAX", "Los Angeles International Airport", "Los Angeles", "USA", 33.9416, -118.4085);
-        Airport ord = new Airport("ORD", "O'Hare International Airport", "Chicago", "USA", 41.9742, -87.9073);
-        Airport cdg = new Airport("CDG", "Charles de Gaulle Airport", "Paris", "France", 49.0097, 2.5479);
-        Airport lhr = new Airport("LHR", "Heathrow Airport", "London", "UK", 51.4700, -0.4543);
-        Airport hnd = new Airport("HND", "Haneda Airport", "Tokyo", "Japan", 35.5494, 139.7798);
-        Airport syd = new Airport("SYD", "Sydney Kingsford Smith Airport", "Sydney", "Australia", -33.9399, 151.1753);
-        Airport gru = new Airport("GRU", "São Paulo–Guarulhos International Airport", "São Paulo", "Brazil", -23.4356, -46.4731);
-        Airport dxB = new Airport("DXB", "Dubai International Airport", "Dubai", "UAE", 25.2532, 55.3657);
+        Airport pkx = new Airport("PKX", "Beijing Daxing International Airport", "Beijing", "China");
+        Airport jfk = new Airport("JFK", "John F. Kennedy International Airport", "New York", "USA");
+        Airport lax = new Airport("LAX", "Los Angeles International Airport", "Los Angeles", "USA");
+        Airport ord = new Airport("ORD", "O'Hare International Airport", "Chicago", "USA");
+        Airport cdg = new Airport("CDG", "Charles de Gaulle Airport", "Paris", "France");
+        Airport lhr = new Airport("LHR", "Heathrow Airport", "London", "UK");
+        Airport hnd = new Airport("HND", "Haneda Airport", "Tokyo", "Japan");
+        Airport syd = new Airport("SYD", "Sydney Kingsford Smith Airport", "Sydney", "Australia");
+        Airport gru = new Airport("GRU", "São Paulo–Guarulhos International Airport", "São Paulo", "Brazil");
+        Airport dxB = new Airport("DXB", "Dubai International Airport", "Dubai", "UAE");
 
         // Añadir vértices al grafo
         graph.addVertex(pkx);

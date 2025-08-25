@@ -9,20 +9,30 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane; 
 import javafx.scene.control.Label; 
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 
 
 public class MainViewController implements GraphSubscriber {
 
     @FXML
     private BorderPane graphPane;
+    
+    @FXML
+    private Button saveChangesBtn;
 
     public void initialize() {
         GraphContext.addListener(this);
-        GraphAL<Airport, Flight> mainGraph = PersistenceController.graphDeserializer();
+        saveChangesBtn.setDisable(true);
         
-        if (mainGraph == null) { // primera vez que se abre la aplicacion
-            mainGraph = PersistenceController.getInitialGraph();
-            PersistenceController.graphSerializer(mainGraph);
+        GraphAL<Airport, Flight> mainGraph = GraphContext.getCurrentGraph();
+        
+        if (mainGraph == null) { // cada vez que se abre la aplicacion
+            mainGraph = PersistenceController.graphDeserializer();
+            if (mainGraph == null) { // si nunca se ha abierto la aplicacion
+                mainGraph = PersistenceController.getInitialGraph();
+                PersistenceController.graphSerializer(mainGraph);
+            }
         }
         
         GraphContext.updateGraph(mainGraph);
@@ -31,6 +41,10 @@ public class MainViewController implements GraphSubscriber {
     @Override
     public void update() {
         refreshGraphView();
+                
+        if (App.hasUnsavedChanges()) {
+            saveChangesBtn.setDisable(false);
+        }
     }
     
     public void refreshGraphView() {
@@ -75,5 +89,15 @@ public class MainViewController implements GraphSubscriber {
     @FXML
     private void switchToAirportView() throws IOException {
         App.setRoot("airport");
+    }
+    
+    @FXML
+    private void saveGraphChanges() {
+        if (App.hasUnsavedChanges()) {
+            PersistenceController.graphSerializer(GraphContext.getCurrentGraph());
+            App.setUnsavedChanges(false);
+            UtilController.showAlert(AlertType.INFORMATION, "Éxito", "Grafo guardado correctamente.");
+            saveChangesBtn.setDisable(true);
+        }
     }
 }
