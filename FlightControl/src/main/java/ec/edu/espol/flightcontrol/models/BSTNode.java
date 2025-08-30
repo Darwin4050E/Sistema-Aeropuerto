@@ -4,36 +4,22 @@
  */
 package ec.edu.espol.flightcontrol.models;
 
+import java.io.Serializable;
+
 /**
  *
- * @author Grupo 1 - P10
- * @param <E>
- * @param <K>
+ * @author gabriel
  */
-
-public class AVLNode<E,K> {
-    
-    // Atributos:
-    
-    private K key;
+public class BSTNode<E, K> implements Serializable{
     private E content;
-    private AVL<E,K> left;
-    private AVL<E,K> right;
+    private K key;
+    private BSTree<E, K> left;
+    private BSTree<E, K> right;
     
-    // Método:
-
-    public AVLNode(K key, E content) {
-        this.key = key;
+    public BSTNode() {}
+    
+    public BSTNode(E content, K key) {
         this.content = content;
-        this.left = null;
-        this.right = null;
-    }
-
-    public K getKey() {
-        return key;
-    }
-
-    public void setKey(K key) {
         this.key = key;
     }
 
@@ -45,20 +31,27 @@ public class AVLNode<E,K> {
         this.content = content;
     }
 
-    public AVL<E, K> getLeft() {
+    public K getKey() {
+        return key;
+    }
+
+    public void setKey(K key) {
+        this.key = key;
+    }
+
+    public BSTree<E, K> getLeft() {
         return left;
     }
 
-    public void setLeft(AVL<E, K> left) {
+    public void setLeft(BSTree<E, K> left) {
         this.left = left;
     }
 
-    public AVL<E, K> getRight() {
+    public BSTree<E, K> getRight() {
         return right;
     }
 
-    public void setRight(AVL<E, K> right) {
+    public void setRight(BSTree<E, K> right) {
         this.right = right;
     }
-    
 }

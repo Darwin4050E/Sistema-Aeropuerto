@@ -177,6 +177,31 @@ public class GraphAL<V,E> implements Serializable {
         return false;
     }
     
+    // sobrecarga para manejar multiples aristas entre un par de nodos
+    // actualmente solo funciona para grafos dirigidos
+    public boolean removeEdge(E data, V sourceContent, V targetContent) {
+        if (data == null || sourceContent == null || targetContent == null) {
+            return false;
+        }
+
+        Vertex<V,E> sourceVertex = this.findVertex(sourceContent);
+        if (sourceVertex == null) {
+            return false;
+        }
+        
+        Iterator<Edge<V,E>> iterator = sourceVertex.getEdges().iterator();
+        while (iterator.hasNext()) {
+            Edge<V,E> edge = iterator.next();
+
+            if (edge.getTargetVertex().getContent().equals(targetContent) && edge.getData().equals(data)) {
+                iterator.remove();
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     public List<Vertex<V,E>> runBFS(V content){
         List<Vertex<V,E>> path = new LinkedList<>();
         if(content == null){

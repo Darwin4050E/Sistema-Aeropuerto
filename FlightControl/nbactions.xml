@@ -6,7 +6,9 @@
                 <packaging>jar</packaging>
             </packagings>
             <goals>
+                <goal>clean</goal>
                 <goal>javafx:run</goal>
+                
                 
             </goals>
         </action>

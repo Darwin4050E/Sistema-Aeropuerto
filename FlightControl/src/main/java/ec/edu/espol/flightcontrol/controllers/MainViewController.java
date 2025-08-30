@@ -132,6 +132,11 @@ public class MainViewController implements GraphSubscriber {
     }
     
     @FXML
+    private void switchToFlightsView() throws IOException {
+        App.setRoot("flights");
+    }
+    
+    @FXML
     private void saveGraphChanges() {
         if (App.hasUnsavedChanges()) {
             PersistenceController.graphSerializer(GraphContext.getCurrentGraph());

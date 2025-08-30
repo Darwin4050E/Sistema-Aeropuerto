@@ -52,7 +52,7 @@
       </BorderPane>
       <BorderPane prefHeight="127.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
          <center>
-            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
                </BorderPane.margin>

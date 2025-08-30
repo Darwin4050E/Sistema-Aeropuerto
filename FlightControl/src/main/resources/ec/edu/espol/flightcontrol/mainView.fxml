@@ -19,7 +19,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="flightBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="200.0" text="Gestionar Vuelos">
+            <Button fx:id="flightBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToFlightsView" prefWidth="200.0" text="Gestionar Vuelos">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>

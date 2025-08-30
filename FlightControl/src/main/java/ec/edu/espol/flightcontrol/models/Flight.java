@@ -5,6 +5,7 @@
 package ec.edu.espol.flightcontrol.models;
 import java.time.LocalTime;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 /**
  *
  * @author Grupo 1 - P1
@@ -17,17 +18,17 @@ public class Flight implements Serializable {
     private String flightNumber;
     private String airline;
     private int distance;
-    private LocalTime departureTime;
-    private LocalTime arrivalTime;
+    private LocalDateTime departure;
+    private LocalDateTime arrival;
 
     // Métodos:
 
-    public Flight(String flightNumber, String airline, int distance, LocalTime departureTime, LocalTime arrivalTime) {
+    public Flight(String flightNumber, String airline, int distance, LocalDateTime departureTime, LocalDateTime arrivalTime) {
         this.flightNumber = flightNumber;
         this.airline = airline;
         this.distance = distance;
-        this.departureTime = departureTime;
-        this.arrivalTime = arrivalTime;
+        this.departure = departureTime;
+        this.arrival = arrivalTime;
     }
 
     public String getFlightNumber() {
@@ -46,20 +47,20 @@ public class Flight implements Serializable {
         this.airline = airline;
     }
 
-    public LocalTime getDepartureTime() {
-        return departureTime;
+    public LocalDateTime getDepartureTime() {
+        return departure;
     }
 
-    public void setDepartureTime(LocalTime departureTime) {
-        this.departureTime = departureTime;
+    public void setDepartureTime(LocalDateTime departureTime) {
+        this.departure = departureTime;
     }
 
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
+    public LocalDateTime getArrivalTime() {
+        return arrival;
     }
 
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        this.arrival = arrivalTime;
     }
 
     public int getDistance() {
@@ -73,5 +74,20 @@ public class Flight implements Serializable {
     @Override
     public String toString() {
         return airline + " " + flightNumber; // "Latam LA1433"
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        Flight other = (Flight) obj;
+        
+        return this.flightNumber.equals(other.flightNumber);
     }
 }

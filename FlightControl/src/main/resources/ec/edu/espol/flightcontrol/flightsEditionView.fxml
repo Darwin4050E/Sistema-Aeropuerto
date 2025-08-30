@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.flightcontrol.controllers.FlightEditionController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1280.0" spacing="25.0">
+         <children>
+            <Button fx:id="backToFlights" mnemonicParsing="false" onAction="#switchToFlights" prefHeight="38.0" prefWidth="115.0" text="Volver">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Label prefHeight="32.0" prefWidth="243.0" text="Editar Vuelo">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+      </HBox>
+      <BorderPane prefHeight="127.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets bottom="50.0" left="50.0" right="50.0" />
+         </VBox.margin>
+         <center>
+            <GridPane hgap="30.0" prefHeight="434.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="534.0" minWidth="10.0" prefWidth="255.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="795.0" minWidth="10.0" prefWidth="795.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <BorderPane.margin>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </BorderPane.margin>
+               <children>
+                  <Label text="Código" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="codeInput" prefHeight="37.0" prefWidth="775.0" promptText="Ingresa el código del vuelo" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </TextField>
+                  <Label alignment="CENTER" text="Aeropuerto Origen" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" text="Aeropuerto Destino" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" text="Distancia" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="distanceInput" prefHeight="37.0" prefWidth="775.0" promptText="Ingresa la distancia del vuelo" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets right="20.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <ComboBox fx:id="originCombo" prefHeight="35.0" prefWidth="350.0" promptText="Elige el aeropuerto de origen" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="targetCombo" prefHeight="35.0" prefWidth="350.0" promptText="Elige el aeropuerto de destino" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Aerolínea" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="airlineCombo" prefHeight="35.0" prefWidth="350.0" promptText="Elige la aerolínea del vuelo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="Fecha y Hora de Salida" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Fecha y Hora de Llegada" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                     <children>
+                        <DatePicker fx:id="departureDate" prefHeight="35.0" prefWidth="250.0" promptText="Seleccione fecha de salida" />
+                        <Spinner fx:id="departureHour" prefHeight="35.0" prefWidth="100.0" />
+                        <Spinner fx:id="departureMinute" prefHeight="35.0" prefWidth="100.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <children>
+                        <DatePicker fx:id="arrivalDate" prefHeight="35.0" prefWidth="250.0" promptText="Seleccione fecha de llegada" />
+                        <Spinner fx:id="arrivalHour" prefHeight="35.0" prefWidth="100.0" />
+                        <Spinner fx:id="arrivalMinute" prefHeight="35.0" prefWidth="100.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER" prefHeight="75.0" prefWidth="1180.0" spacing="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="cancelFlightBtn" mnemonicParsing="false" onAction="#switchToFlights" prefHeight="40.0" prefWidth="100.0" text="Cancelar" textAlignment="CENTER">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="updateFlightBtn" mnemonicParsing="false" onAction="#updateFlight" prefHeight="40.0" prefWidth="100.0" text="Guardar" textAlignment="CENTER">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </bottom>
+         <top>
+            <Label alignment="CENTER" text="Modificar Vuelo" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+         </top>
+      </BorderPane>
+   </children>
+</VBox>
