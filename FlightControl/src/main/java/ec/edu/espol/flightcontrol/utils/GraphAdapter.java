@@ -16,7 +16,7 @@ import java.util.Hashtable;
  * @author gabriel
  */
 public class GraphAdapter {
-    public static <V,E> mxGraph toJGraphX(GraphAL<V,E> graphAL) {
+    public static <V,E> mxGraph toJGraphX(GraphAL<V,E> graphAL, boolean labelInBottom) {
         mxGraph jgxGraph = new mxGraph();
         Object parent = jgxGraph.getDefaultParent();
 
@@ -30,17 +30,33 @@ public class GraphAdapter {
         style.put(mxConstants.STYLE_FONTSTYLE, mxConstants.FONT_BOLD);
         stylesheet.putCellStyle("ROUNDED", style);
         
+        if (labelInBottom) {
+            style.put(mxConstants.STYLE_VERTICAL_ALIGN, mxConstants.ALIGN_TOP);
+            style.put(mxConstants.STYLE_VERTICAL_LABEL_POSITION, mxConstants.ALIGN_BOTTOM);
+        }
+        
         Map<Vertex<V, E>, Object> vertexMap = new HashMap<>();
 
         jgxGraph.getModel().beginUpdate();
         try {
             for (Vertex<V, E> v : graphAL.getVertexs()) {
+                int height = 60;
+                int width = 60;
+                
+                if (labelInBottom) {
+                    height = 40;
+                    width = 40;
+                }
+                
                 String label = (v.getContent() != null) ? v.getContent().toString() : "";
-                Object jgxVertex = jgxGraph.insertVertex(parent, null, label, 0, 0, 60, 60, "ROUNDED");
+                Object jgxVertex = jgxGraph.insertVertex(parent, null, label, 0, 0, height, width, "ROUNDED");
                 vertexMap.put(v, jgxVertex);
             }
 
             String edgeStyle = "endArrow=classic;";
+            if (labelInBottom) {
+                edgeStyle = "endArrow=classic;verticalAlign=bottom;verticalLabelPosition=bottom;";
+            }
 
             for (Vertex<V, E> sourceVertexAL : graphAL.getVertexs()) {
                 for (Edge<V, E> edgeAL : sourceVertexAL.getEdges()) {

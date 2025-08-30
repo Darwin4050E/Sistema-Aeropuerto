@@ -104,27 +104,6 @@ public class GraphAL<V,E> implements Serializable {
         return true;
     }
     
-    /*
-    public boolean removeVertex(V content){
-        if(content == null){
-            return false;
-        }
-        Vertex<V,E> vertexToRemove = this.findVertex(content);
-        if(vertexToRemove != null){
-            for(Vertex<V,E> vertex : vertexs){
-                for(Edge<V,E> edge : vertex.getEdges()){
-                    if(cmp.compare(edge.getTargetVertex().getContent(), vertexToRemove.getContent()) == 0){
-                        vertex.getEdges().remove(edge);
-                    }
-                }
-            }
-            vertexs.remove(vertexToRemove);
-            return true;
-        }
-        return false;
-    }
-*/
-    
     public boolean removeVertex(V content){
 
         Vertex<V,E> vertexToRemove = this.findVertex(content);

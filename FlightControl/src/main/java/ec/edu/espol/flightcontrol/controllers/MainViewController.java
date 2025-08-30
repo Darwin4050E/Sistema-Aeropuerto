@@ -62,48 +62,17 @@ public class MainViewController implements GraphSubscriber {
             graphPane.setCenter(null);
             return;
         }
-        
-        //displayGraph(currentGraph);
-        displayGraph2(currentGraph);
+     
+        displayGraph(currentGraph);
         
     }
     
-    public void displayGraph(GraphAL<Airport, Flight> graph) {
-        if (graph == null || graph.getVertexs().isEmpty()) {
-            graphPane.setCenter(new Label("El grafo está vacío."));
-            return;
-        }
-
-        StringBuilder sb = new StringBuilder("Representación del Grafo (Lista de Adyacencia):\n\n");
-
-        for (Vertex<Airport, Flight> vertex : graph.getVertexs()) {
-            sb.append("Aeropuerto: ").append(vertex.getContent().toString()).append("\n");
-            if (vertex.getEdges().isEmpty()) {
-                sb.append("\t -> (No tiene vuelos de salida)\n");
-            } else {
-                for (Edge<Airport, Flight> edge : vertex.getEdges()) {
-                    Vertex<Airport, Flight> destination = edge.getTargetVertex();
-                    sb.append("\t -> Vuelo hacia: ").append(destination.getContent().toString());
-                    sb.append(" [Info: ").append(edge.getData().toString());
-                    sb.append(", Peso: ").append(edge.getWeight()).append("]\n");
-                }
-            }
-            sb.append("\n");
-        }
-        
-        TextArea graphTextArea = new TextArea(sb.toString());
-        graphTextArea.setEditable(false); 
-        graphTextArea.setStyle("-fx-font-family: 'monospace';"); 
-
-        graphPane.setCenter(graphTextArea);
-    }
-    
-    private void displayGraph2(GraphAL<String, String> myFlightGraph) {
+    private void displayGraph(GraphAL<Airport, Flight> flightGraph) {
         final SwingNode swingNode = new SwingNode();
         graphPane.setStyle("-fx-background-color: white;");
 
         SwingUtilities.invokeLater(() -> {
-            mxGraph graph = GraphAdapter.toJGraphX(myFlightGraph);
+            mxGraph graph = GraphAdapter.toJGraphX(flightGraph, false);
 
             graph.setCellsMovable(false);
             graph.setCellsResizable(false);
@@ -134,6 +103,11 @@ public class MainViewController implements GraphSubscriber {
     @FXML
     private void switchToFlightsView() throws IOException {
         App.setRoot("flights");
+    }
+    
+    @FXML
+    private void switchToRoutesView() throws IOException {
+        App.setRoot("routes");
     }
     
     @FXML

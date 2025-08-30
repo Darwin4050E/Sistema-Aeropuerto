@@ -27,7 +27,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="routeBtn" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" prefWidth="200.0" text="Planificar Rutas">
+            <Button fx:id="routeBtn" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#switchToRoutesView" prefWidth="200.0" text="Planificar Rutas">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
