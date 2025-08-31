@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.flightcontrol.controllers.MainViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.flightcontrol.controllers.MainViewController">
    <bottom>
       <HBox alignment="CENTER" prefHeight="102.0" prefWidth="1280.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="airportBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToAirportView" prefWidth="200.0" text="Gestionar Aeropuertos">
+            <Button fx:id="airportBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToAirportView" prefWidth="225.0" styleClass="button" text="Gestionar Aeropuertos">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
@@ -19,7 +19,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="flightBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToFlightsView" prefWidth="200.0" text="Gestionar Vuelos">
+            <Button fx:id="flightBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToFlightsView" prefWidth="225.0" styleClass="button" text="Gestionar Vuelos">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
@@ -27,7 +27,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="routeBtn" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#switchToRoutesView" prefWidth="200.0" text="Planificar Rutas">
+            <Button fx:id="routeBtn" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#switchToRoutesView" prefWidth="225.0" styleClass="button" text="Planificar Rutas">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
@@ -35,7 +35,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="chartBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToStatsView" prefWidth="200.0" text="Ver Estadísticas">
+            <Button fx:id="chartBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToStatsView" prefWidth="225.0" styleClass="button" text="Ver Estadísticas">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
@@ -49,14 +49,14 @@
    <top>
       <BorderPane prefHeight="83.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
          <center>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="392.0" text="Red de Vuelos" textAlignment="CENTER" BorderPane.alignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="392.0" styleClass="title-label" text="Red de Vuelos" textAlignment="CENTER" BorderPane.alignment="CENTER">
                <font>
                   <Font name="System Bold" size="37.0" />
                </font>
             </Label>
          </center>
          <right>
-            <Button fx:id="saveChangesBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveGraphChanges" text="Guardar Cambios" textAlignment="CENTER" BorderPane.alignment="CENTER">
+            <Button fx:id="saveChangesBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveGraphChanges" text="Guardar Cambios" textAlignment="CENTER" styleClass="button-secondary" BorderPane.alignment="CENTER">
                <font>
                   <Font size="15.0" />
                </font>
@@ -74,9 +74,9 @@
       </BorderPane>
    </top>
    <center>
-      <BorderPane fx:id="graphPane" prefHeight="200.0" prefWidth="200.0">
+      <BorderPane styleClass="card-plain" fx:id="graphPane" prefHeight="200.0" prefWidth="200.0">
          <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
          </padding>
       </BorderPane>
    </center>

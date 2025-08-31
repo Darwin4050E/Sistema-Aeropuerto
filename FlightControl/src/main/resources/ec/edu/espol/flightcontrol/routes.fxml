@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.flightcontrol.controllers.RouteController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.flightcontrol.controllers.RouteController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1280.0" spacing="25.0">
          <children>
-            <Button fx:id="backToMain" mnemonicParsing="false" onAction="#switchToMain" prefHeight="38.0" prefWidth="115.0" text="Volver">
+            <Button fx:id="backToMain" mnemonicParsing="false" onAction="#switchToMain" prefHeight="38.0" prefWidth="115.0" styleClass="button-secondary" text="Volver">
                <font>
                   <Font size="18.0" />
                </font>
@@ -52,12 +52,12 @@
                <children>
                   <Label alignment="CENTER" text="Aeropuerto Origen" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" text="Aeropuerto Destino" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <ComboBox fx:id="originCombo" prefHeight="35.0" prefWidth="350.0" promptText="Elige el aeropuerto de origen" GridPane.columnIndex="1" />
@@ -78,12 +78,15 @@
             </Label>
          </top>
          <bottom>
-            <BorderPane fx:id="graphPane" prefHeight="336.0" prefWidth="1180.0" BorderPane.alignment="CENTER">
+            <BorderPane fx:id="graphPane" prefHeight="336.0" prefWidth="1180.0" styleClass="card" BorderPane.alignment="CENTER">
                <top>
                   <Label fx:id="resultLabel" alignment="CENTER" textAlignment="CENTER" BorderPane.alignment="CENTER">
                      <font>
                         <Font size="20.0" />
                      </font>
+                     <BorderPane.margin>
+                        <Insets bottom="20.0" />
+                     </BorderPane.margin>
                   </Label>
                </top>
                <padding>

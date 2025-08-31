@@ -10,8 +10,6 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.time.LocalTime;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +18,7 @@ import java.time.LocalDateTime;
 
 /**
  *
- * @author grupo1
+ * @author Grupo 1 - P1
  */
 
 public class PersistenceController {
@@ -138,16 +136,16 @@ public class PersistenceController {
         graph.addVertex(gru);
         graph.addVertex(dxb);
 
-        Flight f1 = new Flight("CA101", "Air China", 50, LocalDateTime.of(2025, 9, 10, 8, 0), LocalDateTime.of(2025, 9, 10, 12, 0));
-        Flight f2 = new Flight("UA200", "United Airlines", 40, LocalDateTime.of(2025, 9, 15, 14, 0), LocalDateTime.of(2025, 9, 15, 16, 0));
-        Flight f3 = new Flight("AF300", "Air France", 20, LocalDateTime.of(2025, 10, 5, 10, 0), LocalDateTime.of(2025, 10, 5, 18, 0));
-        Flight f4 = new Flight("BA400", "British Airways", 60, LocalDateTime.of(2025, 10, 8, 9, 0), LocalDateTime.of(2025, 10, 8, 17, 0));
-        Flight f5 = new Flight("JL500", "Japan Airlines", 70, LocalDateTime.of(2025, 11, 20, 7, 0), LocalDateTime.of(2025, 11, 20, 13, 0));
-        Flight f6 = new Flight("QF600", "Qantas", 40, LocalDateTime.of(2025, 11, 21, 12, 0), LocalDateTime.of(2025, 11, 21, 22, 0));
-        Flight f7 = new Flight("EK700", "Emirates", 50, LocalDateTime.of(2025, 12, 1, 15, 0), LocalDateTime.of(2025, 12, 1, 20, 0));
-        Flight f8 = new Flight("LA800", "LATAM Airlines", 100, LocalDateTime.of(2025, 12, 3, 11, 0), LocalDateTime.of(2025, 12, 3, 21, 0));
-        Flight f9 = new Flight("AA900", "American Airlines", 60, LocalDateTime.of(2025, 9, 10, 16, 0), LocalDateTime.of(2025, 9, 10, 22, 0));
-        Flight f10 = new Flight("DL1000", "Delta Airlines", 45, LocalDateTime.of(2025, 11, 22, 20, 0), LocalDateTime.of(2025, 11, 23, 11, 30));
+        Flight f1 = new Flight("CA101", "Air China", 11000, LocalDateTime.of(2025, 9, 10, 8, 0), LocalDateTime.of(2025, 9, 10, 12, 0));
+        Flight f2 = new Flight("UA200", "United Airlines", 10000, LocalDateTime.of(2025, 9, 15, 14, 0), LocalDateTime.of(2025, 9, 15, 16, 0));
+        Flight f3 = new Flight("AF300", "Air France", 82000, LocalDateTime.of(2025, 10, 5, 10, 0), LocalDateTime.of(2025, 10, 5, 18, 0));
+        Flight f4 = new Flight("BA400", "British Airways", 8150, LocalDateTime.of(2025, 10, 8, 9, 0), LocalDateTime.of(2025, 10, 8, 17, 0));
+        Flight f5 = new Flight("JL500", "Japan Airlines", 2100, LocalDateTime.of(2025, 11, 20, 7, 0), LocalDateTime.of(2025, 11, 20, 13, 0));
+        Flight f6 = new Flight("QF600", "Qantas", 8950, LocalDateTime.of(2025, 11, 21, 12, 0), LocalDateTime.of(2025, 11, 21, 22, 0));
+        Flight f7 = new Flight("EK700", "Emirates", 5800, LocalDateTime.of(2025, 12, 1, 15, 0), LocalDateTime.of(2025, 12, 1, 20, 0));
+        Flight f8 = new Flight("LA800", "LATAM Airlines", 17600, LocalDateTime.of(2025, 12, 3, 11, 0), LocalDateTime.of(2025, 12, 3, 21, 0));
+        Flight f9 = new Flight("AA900", "American Airlines", 1180, LocalDateTime.of(2025, 9, 10, 16, 0), LocalDateTime.of(2025, 9, 10, 22, 0));
+        Flight f10 = new Flight("DL1000", "Delta Airlines", 12050, LocalDateTime.of(2025, 11, 22, 20, 0), LocalDateTime.of(2025, 11, 23, 11, 30));
 
         graph.addEdge(f1, pkx, jfk, f1.getDistance());
         graph.addEdge(f2, pkx, lax, f2.getDistance());

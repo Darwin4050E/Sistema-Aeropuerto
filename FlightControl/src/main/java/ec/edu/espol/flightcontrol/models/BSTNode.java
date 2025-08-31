@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class BSTNode<E, K> implements Serializable{
     private E content;

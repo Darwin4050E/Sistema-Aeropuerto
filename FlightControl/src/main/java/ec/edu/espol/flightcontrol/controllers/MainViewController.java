@@ -8,18 +8,22 @@ import ec.edu.espol.flightcontrol.models.*;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane; 
-import javafx.scene.control.Label; 
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
 // Imports para JGraphX y la integración con JavaFX
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
+import javafx.application.Platform;
 import javafx.embed.swing.SwingNode;
 import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
 import javafx.scene.layout.StackPane;
+
+/**
+ *
+ * @author Grupo 1 - P1
+ */
 
 public class MainViewController implements GraphSubscriber {
 
@@ -86,12 +90,34 @@ public class MainViewController implements GraphSubscriber {
             graphComponent.setBackground(java.awt.Color.WHITE);
             graphComponent.getViewport().setBackground(java.awt.Color.WHITE);
             graphComponent.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+            
+            attachNodeClickHandler(graphComponent, graph, flightGraph);
+                    
             swingNode.setContent(graphComponent);
         });
 
         StackPane wrapper = new StackPane(swingNode);
         graphPane.setCenter(wrapper);
         
+    }
+    
+    private void attachNodeClickHandler(mxGraphComponent graphComponent, mxGraph graph, GraphAL<Airport, Flight> flightGraph) {
+        graphComponent.getGraphControl().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                Object cell = graphComponent.getCellAt(e.getX(), e.getY());
+                if (cell != null && graph.getModel().isVertex(cell)) {
+                    String value = (String) graph.getModel().getValue(cell);
+                    String airportCode = Util.extractAirportCode(value);
+                    Airport airport = Util.findAirportByCode(airportCode);
+                    Vertex<Airport, Flight> vertex = flightGraph.findVertex(airport);
+                    if (vertex == null) return;
+                    Platform.runLater(() -> {
+                            UtilController.showAirportFlightInfo(airport, vertex.getEdges());
+                    });
+                }
+            }
+        });
     }
 
 

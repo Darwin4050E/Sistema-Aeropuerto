@@ -16,8 +16,6 @@ import java.util.Iterator;
 /**
  *
  * @author Grupo 1 - P1
- * @param <V>
- * @param <E>
  */
 
 public class GraphAL<V,E> implements Serializable {
@@ -139,7 +137,7 @@ public class GraphAL<V,E> implements Serializable {
         return heap.poll();
     }
 
-    private Vertex<V,E> findVertex(V content){
+    public Vertex<V,E> findVertex(V content){
         if(content == null){
             return null;
         }

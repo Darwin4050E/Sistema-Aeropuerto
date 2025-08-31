@@ -8,10 +8,10 @@ import ec.edu.espol.flightcontrol.App;
 import ec.edu.espol.flightcontrol.models.*;
 import ec.edu.espol.flightcontrol.utils.AirlinesData;
 import ec.edu.espol.flightcontrol.utils.GraphContext;
+import ec.edu.espol.flightcontrol.utils.Util;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
@@ -24,7 +24,7 @@ import javafx.scene.control.TextField;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class FlightCreationController {
     
@@ -124,8 +124,8 @@ public class FlightCreationController {
             return;
         }
 
-        String originCode = extractAirportCode(originCombo.getValue());
-        String targetCode = extractAirportCode(targetCombo.getValue());
+        String originCode = Util.extractAirportCode(originCombo.getValue());
+        String targetCode = Util.extractAirportCode(targetCombo.getValue());
 
         if (!validateDifferentAirports(originCode, targetCode)) return;
 
@@ -137,8 +137,8 @@ public class FlightCreationController {
 
         if (!validateDates(departureDateTime, arrivalDateTime)) return;
         
-        Airport origin = findAirportByCode(originCode);
-        Airport target = findAirportByCode(targetCode);
+        Airport origin = Util.findAirportByCode(originCode);
+        Airport target = Util.findAirportByCode(targetCode);
         Flight flight = new Flight(flightCode, airline, distance, departureDateTime, arrivalDateTime);
         
         GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
@@ -168,10 +168,6 @@ public class FlightCreationController {
         return true;
     }
 
-    private String extractAirportCode(String airportStr) {
-        return airportStr.split("\\(")[1].replace(")", "");
-    }
-
     private boolean validateDifferentAirports(String originCode, String targetCode) {
         if (originCode.equals(targetCode)) {
             UtilController.showAlert(AlertType.ERROR, "Error de Validación", "El aeropuerto de origen y destino no pueden ser el mismo.");
@@ -199,6 +195,11 @@ public class FlightCreationController {
     }
 
     private boolean validateDates(LocalDateTime departure, LocalDateTime arrival) {
+        if (!departure.isAfter(LocalDateTime.now())) {
+            UtilController.showAlert(AlertType.ERROR, "Error de Fechas", "La fecha y hora de salida debe ser posterior a la fecha y hora actual.");
+            return false;
+        }
+        
         if (!arrival.isAfter(departure)) {
             UtilController.showAlert(AlertType.ERROR, "Error de Fechas", "La fecha y hora de llegada debe ser posterior a la de salida.");
             return false;
@@ -206,13 +207,4 @@ public class FlightCreationController {
         return true;
     }
     
-    private Airport findAirportByCode(String code) {
-        BSTree<Airport, String> searchTree = GraphContext.getAirportSearchTree();
-
-        if (searchTree != null) {
-            return searchTree.find(code);
-        }
-
-        return null; 
-    }
 }

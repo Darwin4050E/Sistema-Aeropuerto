@@ -11,7 +11,6 @@ import ec.edu.espol.flightcontrol.utils.AirlinesData;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
@@ -24,7 +23,7 @@ import javafx.scene.control.TextField;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class FlightEditionController {
     

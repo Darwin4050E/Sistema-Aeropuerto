@@ -8,16 +8,21 @@ import ec.edu.espol.flightcontrol.models.*;
 import ec.edu.espol.flightcontrol.utils.*;
 import ec.edu.espol.flightcontrol.App;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-// import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
@@ -25,7 +30,7 @@ import javafx.scene.text.TextAlignment;
 
 /**
  *
- * @author grupo1
+ * @author Grupo 1 - P1
  */
 public class FlightController implements GraphSubscriber {
     
@@ -38,10 +43,9 @@ public class FlightController implements GraphSubscriber {
     }
 
     private void populateGrid() {
-        GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
-        if (currentGraph == null) return;
-
-        List<Vertex<Airport, Flight>> vertexs = currentGraph.getVertexs();
+        
+        List<Edge<Airport, Flight>> edges = getSortedEdgeList();
+        if (edges.isEmpty()) return;
         
         // Limpiar el grid y solo dejar el encabezado de la tabla
         flightGrid.getChildren().removeIf(node -> {
@@ -50,42 +54,83 @@ public class FlightController implements GraphSubscriber {
         });
         
         int rowIndex = 1; 
-        for (Vertex<Airport, Flight> vertex: vertexs) { 
-            for (Edge<Airport, Flight> edge: vertex.getEdges()) { 
-                
-                RowConstraints rowConst = new RowConstraints();
-                rowConst.setMinHeight(60);
-                rowConst.setPrefHeight(80);
-                flightGrid.getRowConstraints().add(rowConst);
 
-                Label flightCode = new Label(edge.getData().getFlightNumber());
-                Label flightAirline = new Label(edge.getData().getAirline());
-                Label flightSourceTarget = new Label(edge.getSourceVertex().getContent().toString() + "\n" + edge.getTargetVertex().getContent().toString());
-                flightSourceTarget.setWrapText(true);
-                flightSourceTarget.setAlignment(Pos.CENTER);
-                flightSourceTarget.setTextAlignment(TextAlignment.CENTER);
-                
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-                Label flightDeparture = new Label(edge.getData().getDepartureTime().format(formatter));
-                Label flightArrival = new Label(edge.getData().getArrivalTime().format(formatter));
+        for (Edge<Airport, Flight> edge: edges) { 
 
-                Button editBtn = new Button("Editar");
-                Button deleteBtn = new Button("Eliminar");
-                editBtn.setOnAction(event -> handleEdit(edge));
-                deleteBtn.setOnAction(event -> handleDelete(edge));
-                HBox actionsPane = new HBox(5, editBtn, deleteBtn);
-                actionsPane.setAlignment(javafx.geometry.Pos.CENTER);
+            RowConstraints rowConst = new RowConstraints();
+            rowConst.setMinHeight(60);
+            rowConst.setPrefHeight(80);
+            flightGrid.getRowConstraints().add(rowConst);
 
-                flightGrid.add(new Label("" + rowIndex), 0, rowIndex); // (nodo, col, fila)
-                flightGrid.add(flightCode, 1, rowIndex);    
-                flightGrid.add(flightAirline, 2, rowIndex);
-                flightGrid.add(flightSourceTarget, 3, rowIndex);
-                flightGrid.add(flightDeparture, 4, rowIndex);
-                flightGrid.add(flightArrival, 5, rowIndex);
-                flightGrid.add(actionsPane, 6, rowIndex);
-                rowIndex++;
+            Label flightCode = new Label(edge.getData().getFlightNumber());
+            Label flightAirline = new Label(edge.getData().getAirline());
+            Label flightSourceTarget = new Label(edge.getSourceVertex().getContent().toString() + "\n" + edge.getTargetVertex().getContent().toString());
+            flightSourceTarget.setWrapText(true);
+            flightSourceTarget.setAlignment(Pos.CENTER);
+            flightSourceTarget.setTextAlignment(TextAlignment.CENTER);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            Label flightDeparture = new Label(edge.getData().getDepartureTime().format(formatter));
+            Label flightArrival = new Label(edge.getData().getArrivalTime().format(formatter));
+
+            Button editBtn = new Button();
+            Button deleteBtn = new Button();
+            editBtn.setOnAction(event -> handleEdit(edge));
+            deleteBtn.setOnAction(event -> handleDelete(edge));
+            HBox actionsPane = new HBox(5, editBtn, deleteBtn);
+            actionsPane.setAlignment(javafx.geometry.Pos.CENTER);
+
+            Image editIconImage = new Image(getClass().getResourceAsStream("/icons/pencil.png"));
+            ImageView editIconView = new ImageView(editIconImage);
+            editIconView.setFitHeight(16); 
+            editIconView.setFitWidth(16);
+            editBtn.setGraphic(editIconView);
+            editBtn.getStyleClass().addAll("button-icon", "button-edit");
+
+            Image deleteIconImage = new Image(getClass().getResourceAsStream("/icons/trash.png"));
+            ImageView deleteIconView = new ImageView(deleteIconImage);
+            deleteIconView.setFitHeight(16);
+            deleteIconView.setFitWidth(16);
+            deleteBtn.setGraphic(deleteIconView);
+            deleteBtn.getStyleClass().addAll("button-icon", "button-danger");
+
+            flightGrid.add(new Label("" + rowIndex), 0, rowIndex); // (nodo, col, fila)
+            flightGrid.add(flightCode, 1, rowIndex);    
+            flightGrid.add(flightAirline, 2, rowIndex);
+            flightGrid.add(flightSourceTarget, 3, rowIndex);
+            flightGrid.add(flightDeparture, 4, rowIndex);
+            flightGrid.add(flightArrival, 5, rowIndex);
+            flightGrid.add(actionsPane, 6, rowIndex);
+            rowIndex++;
+        }
+    }
+    
+    private List<Edge<Airport, Flight>> getSortedEdgeList() {
+        List<Edge<Airport, Flight>> sortedEdges = new LinkedList<>();
+        
+        GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
+        if (currentGraph == null) return sortedEdges;
+
+        Comparator<Edge<Airport, Flight>> flightComparator = (edge1, edge2) -> {
+            LocalDateTime departure1 = edge1.getData().getDepartureTime();
+            LocalDateTime departure2 = edge2.getData().getDepartureTime();
+
+            return departure1.compareTo(departure2); // comparador implicito de LocalDateTime
+        };
+
+        PriorityQueue<Edge<Airport, Flight>> flightQueue = new PriorityQueue<>(flightComparator);
+
+        for (Vertex<Airport, Flight> vertex : currentGraph.getVertexs()) {
+            for(Edge<Airport, Flight> edge : vertex.getEdges()) {
+                flightQueue.offer(edge);
             }
         }
+        
+        while (!flightQueue.isEmpty()) {
+            sortedEdges.add(flightQueue.poll());
+        }
+        
+        return sortedEdges;
     }
 
     private void handleEdit(Edge edge) {

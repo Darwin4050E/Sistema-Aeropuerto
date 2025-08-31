@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.flightcontrol.controllers.FlightEditionController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="root" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.flightcontrol.controllers.FlightEditionController">
    <children>
       <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1280.0" spacing="25.0">
          <children>
-            <Button fx:id="backToFlights" mnemonicParsing="false" onAction="#switchToFlights" prefHeight="38.0" prefWidth="115.0" text="Volver">
+            <Button fx:id="backToFlights" mnemonicParsing="false" onAction="#switchToFlights" prefHeight="38.0" prefWidth="115.0" styleClass="button-secondary" text="Volver">
                <font>
                   <Font size="18.0" />
                </font>
@@ -59,7 +59,7 @@
                <children>
                   <Label text="Código" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <TextField fx:id="codeInput" prefHeight="37.0" prefWidth="775.0" promptText="Ingresa el código del vuelo" GridPane.columnIndex="1">
@@ -72,20 +72,20 @@
                   </TextField>
                   <Label alignment="CENTER" text="Aeropuerto Origen" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" text="Aeropuerto Destino" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <Label alignment="CENTER" text="Distancia" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="distanceInput" prefHeight="37.0" prefWidth="775.0" promptText="Ingresa la distancia del vuelo" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <TextField fx:id="distanceInput" prefHeight="37.0" prefWidth="775.0" promptText="Ingresa la distancia del vuelo (km)" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -97,30 +97,30 @@
                   <ComboBox fx:id="targetCombo" prefHeight="35.0" prefWidth="350.0" promptText="Elige el aeropuerto de destino" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label alignment="CENTER" contentDisplay="CENTER" text="Aerolínea" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <ComboBox fx:id="airlineCombo" prefHeight="35.0" prefWidth="350.0" promptText="Elige la aerolínea del vuelo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Fecha y Hora de Salida" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <Label text="Fecha y Hora de Llegada" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                      <children>
-                        <DatePicker fx:id="departureDate" prefHeight="35.0" prefWidth="250.0" promptText="Seleccione fecha de salida" />
+                        <DatePicker fx:id="departureDate" minWidth="275.0" prefHeight="35.0" prefWidth="300.0" promptText="Seleccione fecha de salida" />
                         <Spinner fx:id="departureHour" prefHeight="35.0" prefWidth="100.0" />
                         <Spinner fx:id="departureMinute" prefHeight="35.0" prefWidth="100.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <children>
-                        <DatePicker fx:id="arrivalDate" prefHeight="35.0" prefWidth="250.0" promptText="Seleccione fecha de llegada" />
+                        <DatePicker fx:id="arrivalDate" minWidth="275.0" prefHeight="35.0" prefWidth="300.0" promptText="Seleccione fecha de llegada" />
                         <Spinner fx:id="arrivalHour" prefHeight="35.0" prefWidth="100.0" />
                         <Spinner fx:id="arrivalMinute" prefHeight="35.0" prefWidth="100.0" />
                      </children>
@@ -131,12 +131,12 @@
          <bottom>
             <HBox alignment="CENTER" prefHeight="75.0" prefWidth="1180.0" spacing="30.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="cancelFlightBtn" mnemonicParsing="false" onAction="#switchToFlights" prefHeight="40.0" prefWidth="100.0" text="Cancelar" textAlignment="CENTER">
+                  <Button fx:id="cancelFlightBtn" minWidth="100.0" mnemonicParsing="false" onAction="#switchToFlights" prefHeight="40.0" prefWidth="150.0" styleClass="button-danger" text="Cancelar" textAlignment="CENTER">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="updateFlightBtn" mnemonicParsing="false" onAction="#updateFlight" prefHeight="40.0" prefWidth="100.0" text="Guardar" textAlignment="CENTER">
+                  <Button fx:id="updateFlightBtn" minWidth="100.0" mnemonicParsing="false" onAction="#updateFlight" prefHeight="40.0" prefWidth="150.0" styleClass="button-primary" text="Guardar" textAlignment="CENTER">
                      <font>
                         <Font size="15.0" />
                      </font>

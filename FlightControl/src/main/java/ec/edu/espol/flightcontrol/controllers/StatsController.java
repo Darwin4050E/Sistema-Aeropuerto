@@ -11,15 +11,11 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class StatsController {
 

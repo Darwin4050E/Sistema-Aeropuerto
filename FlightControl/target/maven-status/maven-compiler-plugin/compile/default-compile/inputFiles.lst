@@ -16,8 +16,8 @@
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/models/GraphAL.java
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/App.java
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/controllers/FlightEditionController.java
+/home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/utils/Util.java
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/models/BSTNode.java
-/home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/models/SistemaAeropuerto.java
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/utils/GraphContext.java
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/utils/GraphSubscriber.java
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/models/Flight.java

@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ec.edu.espol.flightcontrol.models;
-import java.time.LocalTime;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 /**
@@ -73,7 +72,7 @@ public class Flight implements Serializable {
     
     @Override
     public String toString() {
-        return airline + " " + flightNumber; // "Latam LA1433"
+        return flightNumber; 
     }
     
     @Override

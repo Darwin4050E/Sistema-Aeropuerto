@@ -8,21 +8,26 @@ import ec.edu.espol.flightcontrol.models.*;
 import ec.edu.espol.flightcontrol.utils.*;
 import ec.edu.espol.flightcontrol.App;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 
 /**
  *
- * @author grupo1
+ * @author Grupo 1 - P1
  */
 public class AirportController implements GraphSubscriber {
     
@@ -35,10 +40,7 @@ public class AirportController implements GraphSubscriber {
     }
 
     private void populateGrid() {
-        GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
-        if (currentGraph == null) return;
-
-        List<Vertex<Airport, Flight>> vertexs = currentGraph.getVertexs();
+        List<Airport> sortedAirports = getSortedAirportList();
 
         // Limpiar el grid y solo dejar el encabezado de la tabla
         airportGrid.getChildren().removeIf(node -> {
@@ -47,25 +49,38 @@ public class AirportController implements GraphSubscriber {
         });
 
         int rowIndex = 1; 
-        for (Vertex<Airport, Flight> vertex: vertexs) {
+        for (Airport airport : sortedAirports) {
             
-            // para cada aeropuerto en la lista de vertices
             RowConstraints rowConst = new RowConstraints();
-            rowConst.setMinHeight(40);
+            rowConst.setMinHeight(45);
             airportGrid.getRowConstraints().add(rowConst);
             
-            Airport airport = vertex.getContent();
             Label codeLabel = new Label(airport.getCode());
             Label nameLabel = new Label(airport.getName());
             Label cityLabel = new Label(airport.getCity());
             Label countryLabel = new Label(airport.getCountry());
             
-            Button editBtn = new Button("Editar");
-            Button deleteBtn = new Button("Eliminar");
+            Button editBtn = new Button();
+            Button deleteBtn = new Button();
+            
             editBtn.setOnAction(event -> handleEdit(airport));
             deleteBtn.setOnAction(event -> handleDelete(airport));
             HBox actionsPane = new HBox(5, editBtn, deleteBtn);
             actionsPane.setAlignment(javafx.geometry.Pos.CENTER);
+            
+            Image editIconImage = new Image(getClass().getResourceAsStream("/icons/pencil.png"));
+            ImageView editIconView = new ImageView(editIconImage);
+            editIconView.setFitHeight(16); 
+            editIconView.setFitWidth(16);
+            editBtn.setGraphic(editIconView);
+            editBtn.getStyleClass().addAll("button-icon", "button-edit");
+            
+            Image deleteIconImage = new Image(getClass().getResourceAsStream("/icons/trash.png"));
+            ImageView deleteIconView = new ImageView(deleteIconImage);
+            deleteIconView.setFitHeight(16);
+            deleteIconView.setFitWidth(16);
+            deleteBtn.setGraphic(deleteIconView);
+            deleteBtn.getStyleClass().addAll("button-icon", "button-danger");
             
             airportGrid.add(new Label("" + rowIndex), 0, rowIndex); // (nodo, col, fila)
             airportGrid.add(codeLabel, 1, rowIndex);    
@@ -75,6 +90,25 @@ public class AirportController implements GraphSubscriber {
             airportGrid.add(actionsPane, 5, rowIndex);
             rowIndex++;
         }
+    }
+    
+    private List<Airport> getSortedAirportList() {
+        List<Airport> sortedAirports = new LinkedList<>();
+        
+        GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
+        if (currentGraph == null) return sortedAirports;
+
+        PriorityQueue<Airport> airportQueue = new PriorityQueue<>(new AirportComparator());
+
+        for (Vertex<Airport, Flight> vertex : currentGraph.getVertexs()) {
+            airportQueue.offer(vertex.getContent());
+        }
+        
+        while (!airportQueue.isEmpty()) {
+            sortedAirports.add(airportQueue.poll());
+        }
+        
+        return sortedAirports;
     }
 
     private void handleEdit(Airport airport) {

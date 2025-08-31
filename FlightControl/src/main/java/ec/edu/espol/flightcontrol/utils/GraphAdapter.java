@@ -13,7 +13,7 @@ import java.util.Hashtable;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class GraphAdapter {
     public static <V,E> mxGraph toJGraphX(GraphAL<V,E> graphAL, boolean labelInBottom) {
@@ -64,7 +64,7 @@ public class GraphAdapter {
                     Object jgxTarget = vertexMap.get(edgeAL.getTargetVertex());
 
                     if (jgxSource != null && jgxTarget != null) {
-                        String label = String.valueOf(edgeAL.getWeight());
+                        String label = edgeAL.toString();
                         jgxGraph.insertEdge(parent, null, label, jgxSource, jgxTarget, edgeStyle);
                     }
                 }

@@ -6,7 +6,7 @@ package ec.edu.espol.flightcontrol.utils;
 
 /**
  *
- * @author troni
+ * @author Grupo 1 - P1
  */
 public interface GraphSubscriber {
     public void update();

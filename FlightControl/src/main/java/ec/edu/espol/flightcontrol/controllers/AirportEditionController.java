@@ -9,6 +9,7 @@ import ec.edu.espol.flightcontrol.models.*;
 import ec.edu.espol.flightcontrol.utils.GraphContext;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -18,7 +19,7 @@ import javafx.scene.image.ImageView;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class AirportEditionController {
     @FXML
@@ -37,7 +38,7 @@ public class AirportEditionController {
     TextField countryInput;
     
     @FXML
-    Button pickImageBtn;
+    Button updateAirportBtn;
     
     private Airport airportToEdit;
 
@@ -53,7 +54,6 @@ public class AirportEditionController {
         cityInput.setText(airport.getCity());
         countryInput.setText(airport.getCountry());
         codeInput.setDisable(true);
-        pickImageBtn.setDisable(true);
     }
     
     private void loadAndConfigureImage(Airport airport) {
@@ -66,7 +66,12 @@ public class AirportEditionController {
                 img = new Image("file:" + imagePath);
             } 
             else {
-                img = new Image(getClass().getResourceAsStream(imagePath));
+                InputStream resourceStream = getClass().getResourceAsStream(imagePath);
+                if (resourceStream != null) {
+                    img = new Image(resourceStream);
+                } else {
+                    System.out.println("Recurso no encontrado en el classpath: " + imagePath);
+                }
             }
         } catch (Exception e) {
             System.out.println("No se pudo cargar la imagen: " + imagePath);
@@ -76,10 +81,10 @@ public class AirportEditionController {
         if (img != null) {
             airportImage.setImage(img);
         } else {
-            airportImage.setImage(new Image(getClass().getResourceAsStream("/images/placeholder.jpg")));
+            airportImage.setImage(new Image(getClass().getResourceAsStream("/images/airports/placeholder.jpg")));
         }
 
-        airportImage.setFitWidth(200);
+        airportImage.setFitHeight(110);
         airportImage.setPreserveRatio(true);
     }
     
@@ -105,7 +110,8 @@ public class AirportEditionController {
             UtilController.showAlert(AlertType.ERROR, "Error de Validación", "Todos los campos son obligatorios.");
             return;
         }
-
+        
+        updateAirportBtn.setDisable(true);
         airportToEdit.setName(name);
         airportToEdit.setCity(city);
         airportToEdit.setCountry(country);

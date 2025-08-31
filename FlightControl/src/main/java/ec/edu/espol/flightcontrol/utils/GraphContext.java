@@ -11,12 +11,11 @@ import java.util.Set;
 
 /**
  *
- * @author troni
+ * @author Grupo 1 - P1
  */
 public class GraphContext {
     private static GraphAL<Airport, Flight> currentGraph;
     
-    // estructuras adicionales que se derivan a partir del grafo
     private static BSTree<Airport, String> airportSearchTree;
     private static Set<String> allFlightCodes = new HashSet<>();
     

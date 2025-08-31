@@ -11,7 +11,7 @@ import java.util.Stack;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class BSTree<E, K> implements Serializable{
     private BSTNode<E, K> root;

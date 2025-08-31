@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Grupo 1 - P10
+ * @author Grupo 1 - P1
  */
 
 public class Heap<E> implements Serializable {

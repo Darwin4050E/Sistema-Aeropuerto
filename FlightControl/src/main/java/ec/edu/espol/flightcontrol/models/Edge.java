@@ -8,8 +8,6 @@ import java.io.Serializable;
 /**
  *
  * @author Grupo 1 - P1
- * @param <V>
- * @param <E>
  */
 
 public class Edge<V,E> implements Serializable {
@@ -60,6 +58,11 @@ public class Edge<V,E> implements Serializable {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("%s (%d km)", this.getData().toString(), this.weight);
     }
     
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class AirlinesData {
     public static List<String> getAvailableAirlines() {

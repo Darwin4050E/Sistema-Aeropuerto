@@ -7,7 +7,7 @@ package ec.edu.espol.flightcontrol.models;
 import java.io.Serializable;
 /**
  *
- * @author Grupo 1 - P10
+ * @author Grupo 1 - P1
  */
 
 public class Airport implements Serializable {

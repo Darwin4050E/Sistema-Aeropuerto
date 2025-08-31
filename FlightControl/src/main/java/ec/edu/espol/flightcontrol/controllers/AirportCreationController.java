@@ -11,17 +11,18 @@ import ec.edu.espol.flightcontrol.utils.PersistenceController;
 import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class AirportCreationController {
     @FXML
@@ -39,8 +40,20 @@ public class AirportCreationController {
     @FXML
     TextField countryInput;
     
+    @FXML
+    Button saveAirportBtn;
+    
+    @FXML
+    StackPane imagePreviewContainer;
+    
     private String selectedImagePath = "";
     
+    @FXML
+    public void initialize() {
+        imagePreviewContainer.setVisible(false);
+        imagePreviewContainer.setManaged(false); 
+    }
+
     @FXML
     private void selectImage() {
         FileChooser fileChooser = new FileChooser();
@@ -49,14 +62,18 @@ public class AirportCreationController {
                 new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif")
         );
 
-        File file = fileChooser.showOpenDialog(new Stage());
+        Stage currentStage = (Stage) saveAirportBtn.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(currentStage);
+        
         if (file != null) {
             selectedImagePath = file.getAbsolutePath();
 
             Image img = new Image(file.toURI().toString());
             airportImage.setImage(img);
-            airportImage.setFitWidth(200);
+            airportImage.setFitHeight(110);
             airportImage.setPreserveRatio(true);
+            imagePreviewContainer.setVisible(true);
+            imagePreviewContainer.setManaged(true);
         }
     }
     
@@ -89,6 +106,7 @@ public class AirportCreationController {
             return;
         }
         
+        saveAirportBtn.setDisable(true);
         Airport newAirport = new Airport(code, name, city, country, finalImagePath);
         GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
         if (currentGraph.addVertex(newAirport)) {
@@ -97,6 +115,7 @@ public class AirportCreationController {
             App.setUnsavedChanges(true);
             switchToAirports();
         } else {
+            saveAirportBtn.setDisable(false);
             UtilController.showAlert(AlertType.ERROR, "Error al Guardar", "Ya existe un aeropuerto con ese código.");
         }
     }

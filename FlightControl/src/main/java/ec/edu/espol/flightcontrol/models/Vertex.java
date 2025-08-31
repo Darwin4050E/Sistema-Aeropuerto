@@ -11,8 +11,6 @@ import java.util.List;
 /**
  *
  * @author Grupo 1 - P1
- * @param <V>
- * @param <E>
  */
 
 public class Vertex<V,E> implements Comparable<Vertex<V,E>>, Serializable {

@@ -7,24 +7,16 @@ package ec.edu.espol.flightcontrol.controllers;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import ec.edu.espol.flightcontrol.App;
 import ec.edu.espol.flightcontrol.models.*;
-import ec.edu.espol.flightcontrol.utils.AirlinesData;
 import ec.edu.espol.flightcontrol.utils.AirportComparator;
 import ec.edu.espol.flightcontrol.utils.GraphContext;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 // Imports para JGraphX y la integración con JavaFX
@@ -39,7 +31,7 @@ import javax.swing.SwingConstants;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class RouteController {
     
