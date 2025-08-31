@@ -35,7 +35,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button fx:id="chartBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="200.0" text="Ver Estadísticas">
+            <Button fx:id="chartBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchToStatsView" prefWidth="200.0" text="Ver Estadísticas">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>

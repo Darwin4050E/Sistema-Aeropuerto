@@ -7,12 +7,17 @@ package ec.edu.espol.flightcontrol.controllers;
 import ec.edu.espol.flightcontrol.App;
 import ec.edu.espol.flightcontrol.models.*;
 import ec.edu.espol.flightcontrol.utils.GraphContext;
+import ec.edu.espol.flightcontrol.utils.PersistenceController;
+import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  *
@@ -34,9 +39,25 @@ public class AirportCreationController {
     @FXML
     TextField countryInput;
     
+    private String selectedImagePath = "";
+    
     @FXML
     private void selectImage() {
-        System.out.println("Seleccionando imagen...");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Imagen");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        File file = fileChooser.showOpenDialog(new Stage());
+        if (file != null) {
+            selectedImagePath = file.getAbsolutePath();
+
+            Image img = new Image(file.toURI().toString());
+            airportImage.setImage(img);
+            airportImage.setFitWidth(200);
+            airportImage.setPreserveRatio(true);
+        }
     }
     
     @FXML
@@ -51,13 +72,24 @@ public class AirportCreationController {
         String city = cityInput.getText().trim();
         String country = countryInput.getText().trim();
         
+        if (selectedImagePath.isEmpty()) {
+            UtilController.showAlert(AlertType.ERROR, "Error de Validación", "Por favor, selecciona una imagen para el aeropuerto.");
+            return; 
+        }
+        
         if (code.isEmpty() || name.isEmpty() || city.isEmpty() || country.isEmpty()) {
             UtilController.showAlert(AlertType.ERROR, "Error de Validación", "Todos los campos son obligatorios.");
             return;
         }
         
-            
-        Airport newAirport = new Airport(code, name, city, country);
+        String finalImagePath = PersistenceController.copyImageToAppFolder(selectedImagePath, code);
+
+        if (finalImagePath == null) {
+            UtilController.showAlert(AlertType.ERROR, "Error de Archivo", "No se pudo copiar la imagen al directorio de la aplicación.");
+            return;
+        }
+        
+        Airport newAirport = new Airport(code, name, city, country, finalImagePath);
         GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
         if (currentGraph.addVertex(newAirport)) {
             UtilController.showAlert(AlertType.INFORMATION, "Éxito", "Aeropuerto '" + name + "' guardado correctamente.");

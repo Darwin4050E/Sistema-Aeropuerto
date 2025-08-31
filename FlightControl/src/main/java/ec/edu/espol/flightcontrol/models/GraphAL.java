@@ -59,6 +59,85 @@ public class GraphAL<V,E> implements Serializable {
     public void setIsDirected(boolean isDirected) {
         this.isDirected = isDirected;
     }
+    
+    private List<V> getVertexContents() {
+        List<V> contents = new LinkedList<>();
+        for (Vertex<V, E> vertex : this.vertexs) {
+            contents.add(vertex.getContent());
+        }
+        return contents;
+    }
+    
+    public int getOutDegree(V content) {
+        Vertex<V, E> vertex = findVertex(content);
+        if (vertex == null) return -1;
+        
+        return vertex.getEdges().size();
+    }
+    
+    public int getInDegree(V content) {
+        Vertex<V, E> vertex = findVertex(content);
+        if (vertex == null) return -1;
+        int counter = 0;
+        for (Vertex<V, E> current : vertexs) {
+            if (current == vertex) continue;
+            for (Edge<V, E> edge : current.getEdges()) {
+                Vertex<V, E> target = edge.getTargetVertex();
+                if (target == vertex) counter++;
+            }
+        }
+        return counter;
+    }
+    
+    public int getTotalDegree(V content) {
+        Vertex<V, E> vertex = findVertex(content);
+        if (vertex == null) return -1;
+        return getOutDegree(content) + getInDegree(content);
+    }
+    
+    public V getMostInDegreeNode() {
+        Comparator<V> cmp = new Comparator<>() {
+            @Override
+            public int compare(V v1, V v2) {
+                return Integer.compare(getInDegree(v1), getInDegree(v2));
+            }
+        };
+        Heap<V> heap = new Heap<>(cmp, true, getVertexContents());
+        return heap.poll();
+    }
+    
+    public V getLessInDegreeNode() {
+        Comparator<V> cmp = new Comparator<>() {
+            @Override
+            public int compare(V v1, V v2) {
+                return Integer.compare(getInDegree(v2), getInDegree(v1));
+            }
+        };
+        Heap<V> heap = new Heap<>(cmp, true, getVertexContents());
+        return heap.poll();
+    }
+    
+    public V getMostOutDegreeNode() {
+        Comparator<V> cmp = new Comparator<>() {
+            @Override
+            public int compare(V v1, V v2) {
+                return Integer.compare(getOutDegree(v1), getOutDegree(v2));
+            }
+        };
+        Heap<V> heap = new Heap<>(cmp, true, getVertexContents());
+        return heap.poll();
+    }
+    
+    public V getLessOutDegreeNode() {
+        Comparator<V> cmp = new Comparator<>() {
+            @Override
+            public int compare(V v1, V v2) {
+                return Integer.compare(getOutDegree(v2), getOutDegree(v1));
+            }
+        };
+        Heap<V> heap = new Heap<>(cmp, true, getVertexContents());
+        return heap.poll();
+    }
 
     private Vertex<V,E> findVertex(V content){
         if(content == null){
@@ -113,12 +192,11 @@ public class GraphAL<V,E> implements Serializable {
             Iterator<Edge<V,E>> it = vertex.getEdges().iterator();
             while(it.hasNext()){
                 Edge<V,E> edge = it.next();
-                if(cmp.compare(edge.getTargetVertex().getContent(), vertexToRemove.getContent()) == 0){
+                if (cmp.compare(edge.getTargetVertex().getContent(), vertexToRemove.getContent()) == 0){
                     it.remove();
                 }
             }
         }
-        
         vertexs.remove(vertexToRemove);
         return true;
     }

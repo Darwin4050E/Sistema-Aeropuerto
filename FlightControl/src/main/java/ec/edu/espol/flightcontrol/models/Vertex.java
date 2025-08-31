@@ -74,6 +74,10 @@ public class Vertex<V,E> implements Comparable<Vertex<V,E>>, Serializable {
     public void setPredecessorVertex(Vertex<V, E> predecessorVertex) {
         this.predecessorVertex = predecessorVertex;
     }
+    
+    public int getOutDegree() {
+        return edges.size();
+    }
 
     @Override
     public int compareTo(Vertex<V, E> o) {

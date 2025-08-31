@@ -7,10 +7,13 @@ package ec.edu.espol.flightcontrol.controllers;
 import ec.edu.espol.flightcontrol.App;
 import ec.edu.espol.flightcontrol.models.*;
 import ec.edu.espol.flightcontrol.utils.GraphContext;
+import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -33,15 +36,51 @@ public class AirportEditionController {
     @FXML
     TextField countryInput;
     
+    @FXML
+    Button pickImageBtn;
+    
     private Airport airportToEdit;
 
     public void initData(Airport airport) {
         this.airportToEdit = airport;
+        loadAirportInfo(airport);
+        loadAndConfigureImage(airport);
+    }
+    
+    private void loadAirportInfo(Airport airport) {
         codeInput.setText(airport.getCode());
         nameInput.setText(airport.getName());
         cityInput.setText(airport.getCity());
         countryInput.setText(airport.getCountry());
         codeInput.setDisable(true);
+        pickImageBtn.setDisable(true);
+    }
+    
+    private void loadAndConfigureImage(Airport airport) {
+        String imagePath = airport.getImagePath();
+        Image img = null;
+
+        try {
+            File file = new File(imagePath);
+            if (file.exists() && file.isAbsolute()) {
+                img = new Image("file:" + imagePath);
+            } 
+            else {
+                img = new Image(getClass().getResourceAsStream(imagePath));
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar la imagen: " + imagePath);
+            e.printStackTrace();
+        }
+
+        if (img != null) {
+            airportImage.setImage(img);
+        } else {
+            airportImage.setImage(new Image(getClass().getResourceAsStream("/images/placeholder.jpg")));
+        }
+
+        airportImage.setFitWidth(200);
+        airportImage.setPreserveRatio(true);
     }
     
     @FXML

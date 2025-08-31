@@ -4,14 +4,16 @@
  */
 package ec.edu.espol.flightcontrol.models;
 
+import java.io.Serializable;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  *
  * @author Grupo 1 - P10
  */
 
-public class Heap<E> {
+public class Heap<E> implements Serializable {
     
     // Atributos:
     
@@ -28,6 +30,20 @@ public class Heap<E> {
         this.array = (E[]) new Object[capacity];
         this.effectiveSize = 0;
         this.isMax = isMax;
+    }
+    
+    public Heap(Comparator<E> cmp, boolean isMax, List<E> list) {
+        this.cmp = cmp;
+        this.isMax = isMax;
+        this.effectiveSize = list.size();
+        this.capacity = Math.max(this.capacity, this.effectiveSize);
+        this.array = (E[]) new Object[this.capacity];
+
+        for (int i = 0; i < this.effectiveSize; i++) {
+            this.array[i] = list.get(i);
+        }
+
+        this.makeHeap(); 
     }
 
     public Comparator<E> getCmp() {

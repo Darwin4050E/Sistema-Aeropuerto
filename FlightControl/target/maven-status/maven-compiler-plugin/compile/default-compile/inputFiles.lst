@@ -24,3 +24,4 @@
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/controllers/FlightCreationController.java
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/utils/AirportComparator.java
 /home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/models/Airport.java
+/home/gabriel/NetBeansProjects/FlightControl/src/main/java/ec/edu/espol/flightcontrol/controllers/StatsController.java
