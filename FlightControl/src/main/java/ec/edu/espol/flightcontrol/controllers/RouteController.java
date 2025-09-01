@@ -23,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 import ec.edu.espol.flightcontrol.utils.GraphAdapter;
+import ec.edu.espol.flightcontrol.utils.Util;
 import javafx.embed.swing.SwingNode;
 import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
@@ -73,13 +74,13 @@ public class RouteController {
     private void findRoute() throws IOException {
         if (!validateRequiredFields()) return;
 
-        String originCode = extractAirportCode(originCombo.getValue());
-        String targetCode = extractAirportCode(targetCombo.getValue());
+        String originCode = Util.extractAirportCode(originCombo.getValue());
+        String targetCode = Util.extractAirportCode(targetCombo.getValue());
 
         if (!validateDifferentAirports(originCode, targetCode)) return;
         
-        Airport origin = findAirportByCode(originCode);
-        Airport target = findAirportByCode(targetCode);
+        Airport origin = Util.findAirportByCode(originCode);
+        Airport target = Util.findAirportByCode(targetCode);
         
         GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
         List<Vertex<Airport, Flight>> path = currentGraph.runDijkstra(origin, target);
@@ -97,9 +98,6 @@ public class RouteController {
         return true;
     }
 
-    private String extractAirportCode(String airportStr) {
-        return airportStr.split("\\(")[1].replace(")", "");
-    }
 
     private boolean validateDifferentAirports(String originCode, String targetCode) {
         if (originCode.equals(targetCode)) {
@@ -107,16 +105,6 @@ public class RouteController {
             return false;
         }
         return true;
-    }
-    
-    private Airport findAirportByCode(String code) {
-        BSTree<Airport, String> searchTree = GraphContext.getAirportSearchTree();
-
-        if (searchTree != null) {
-            return searchTree.find(code);
-        }
-
-        return null; 
     }
     
     private void displayPath(List<Vertex<Airport, Flight>> path) {
@@ -160,6 +148,9 @@ public class RouteController {
             graph.setCellsMovable(false);
             graph.setCellsResizable(false);
             graph.setCellsEditable(false);
+            graph.setCellsBendable(false);  
+            graph.setEdgeLabelsMovable(false);
+            graph.setCellsDisconnectable(false);
 
             mxHierarchicalLayout layout = new mxHierarchicalLayout(graph);
             layout.setOrientation(SwingConstants.WEST);
@@ -169,6 +160,8 @@ public class RouteController {
             graphComponent.setBackground(java.awt.Color.WHITE);
             graphComponent.getViewport().setBackground(java.awt.Color.WHITE);
             graphComponent.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+            graphComponent.setDragEnabled(false);
+            
             swingNode.setContent(graphComponent);
         });
 

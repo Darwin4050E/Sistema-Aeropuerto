@@ -13,13 +13,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,8 +39,12 @@ public class FlightController implements GraphSubscriber {
 
     @FXML
     public void initialize() {
+        setupComboBoxes();
         populateGrid();
     }
+    
+    @FXML
+    ComboBox<String> orderCombo;
 
     private void populateGrid() {
         
@@ -53,8 +57,12 @@ public class FlightController implements GraphSubscriber {
             return rowIndex != null && rowIndex > 0;
         });
         
+        flightGrid.getRowConstraints().clear();
+        RowConstraints headerRowConst = new RowConstraints();
+        headerRowConst.setMinHeight(60);
+        flightGrid.getRowConstraints().add(headerRowConst);
+        
         int rowIndex = 1; 
-
         for (Edge<Airport, Flight> edge: edges) { 
 
             RowConstraints rowConst = new RowConstraints();
@@ -105,29 +113,31 @@ public class FlightController implements GraphSubscriber {
         }
     }
     
+    private void setupComboBoxes() {
+        orderCombo.getItems().setAll("Código", "Aerolínea", "Salida", "Llegada");
+        orderCombo.setValue("Salida");
+        orderCombo.setOnAction(event -> populateGrid());
+    }
+    
     private List<Edge<Airport, Flight>> getSortedEdgeList() {
         List<Edge<Airport, Flight>> sortedEdges = new LinkedList<>();
+        Comparator<Edge<Airport, Flight>> cmp = getFlightComparator();
         
         GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
+        List<Edge<Airport, Flight>> edges = new LinkedList<>();
         if (currentGraph == null) return sortedEdges;
 
-        Comparator<Edge<Airport, Flight>> flightComparator = (edge1, edge2) -> {
-            LocalDateTime departure1 = edge1.getData().getDepartureTime();
-            LocalDateTime departure2 = edge2.getData().getDepartureTime();
-
-            return departure1.compareTo(departure2); // comparador implicito de LocalDateTime
-        };
-
-        PriorityQueue<Edge<Airport, Flight>> flightQueue = new PriorityQueue<>(flightComparator);
 
         for (Vertex<Airport, Flight> vertex : currentGraph.getVertexs()) {
             for(Edge<Airport, Flight> edge : vertex.getEdges()) {
-                flightQueue.offer(edge);
+                edges.add(edge);
             }
         }
         
-        while (!flightQueue.isEmpty()) {
-            sortedEdges.add(flightQueue.poll());
+        Heap<Edge<Airport, Flight>> heap = new Heap<>(cmp, true, edges);
+        
+        while (!heap.isEmpty()) {
+            sortedEdges.add(heap.poll());
         }
         
         return sortedEdges;
@@ -179,5 +189,54 @@ public class FlightController implements GraphSubscriber {
     @Override
     public void update() {
         populateGrid();
+    }
+    
+    private Comparator<Edge<Airport, Flight>> getFlightComparator() {
+        String order = orderCombo.getValue();
+        if (order == null) order = "";
+        
+        Comparator<Edge<Airport, Flight>> cmpByCode = (Edge<Airport, Flight> e1, Edge<Airport, Flight> e2) -> {
+            return e2.getData().getFlightNumber().compareTo(e1.getData().getFlightNumber());
+        };
+        
+        Comparator<Edge<Airport, Flight>> cmpByAirline = (Edge<Airport, Flight> e1, Edge<Airport, Flight> e2) -> {
+            return e2.getData().getAirline().compareTo(e1.getData().getAirline());
+        };
+        
+        Comparator<Edge<Airport, Flight>> cmpByDeparture = (Edge<Airport, Flight> e1, Edge<Airport, Flight> e2) -> {
+            LocalDateTime departure1 = e1.getData().getDepartureTime();
+            LocalDateTime departure2 = e2.getData().getDepartureTime();
+
+            return departure2.compareTo(departure1); 
+        };
+        
+        Comparator<Edge<Airport, Flight>> cmpByArrival = (Edge<Airport, Flight> e1, Edge<Airport, Flight> e2) -> {
+            LocalDateTime arrival1 = e1.getData().getArrivalTime();
+            LocalDateTime arrival2 = e2.getData().getArrivalTime();
+
+            return arrival2.compareTo(arrival1); 
+        };
+        
+        Comparator<Edge<Airport, Flight>> cmp = cmpByCode;
+        
+        switch (order) {
+            case "Código":
+                cmp = cmpByCode;
+                break;
+            case "Aerolínea":
+                cmp = cmpByAirline;
+                break;
+            case "Salida":
+                cmp = cmpByDeparture;
+                break;
+            case "Llegada":
+                cmp = cmpByArrival;
+                break;
+            default:
+                cmp = cmpByDeparture;
+                break;                
+        }
+        
+        return cmp;
     }
 }

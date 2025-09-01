@@ -58,7 +58,7 @@ public class GraphAL<V,E> implements Serializable {
         this.isDirected = isDirected;
     }
     
-    private List<V> getVertexContents() {
+    public List<V> getVertexContents() {
         List<V> contents = new LinkedList<>();
         for (Vertex<V, E> vertex : this.vertexs) {
             contents.add(vertex.getContent());

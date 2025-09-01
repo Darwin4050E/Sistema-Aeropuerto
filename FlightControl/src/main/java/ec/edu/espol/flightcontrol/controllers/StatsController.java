@@ -4,14 +4,33 @@
  */
 package ec.edu.espol.flightcontrol.controllers;
 
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Text;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.element.Div;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.layout.properties.HorizontalAlignment;
+
 import ec.edu.espol.flightcontrol.App;
 import ec.edu.espol.flightcontrol.models.*;
 import ec.edu.espol.flightcontrol.utils.GraphContext;
+import java.io.File;
 import java.io.IOException;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.WritableImage;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -76,6 +95,52 @@ public class StatsController {
         }
         
         chart.getData().addAll(outDegreeSeries, inDegreeSeries);
+    }
+    @FXML
+    private void generatePDF() {
+        String dest = System.getProperty("user.home") + java.io.File.separator + "reporte_vuelos.pdf";
+
+        try {
+            WritableImage image = chart.snapshot(new SnapshotParameters(), null);
+            File tempImageFile = new File("chart_snapshot.png"); 
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", tempImageFile);
+
+            PdfWriter writer = new PdfWriter(dest);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf, PageSize.A4.rotate());
+
+            document.add(new Paragraph("Reporte de Estadísticas de Vuelos")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBold()
+                .setFontSize(20));
+            
+            document.add(new Paragraph("\n"));
+            document.add(new Div()
+                .add(new Paragraph().add(new Text("Aeropuerto con más salidas: ").setBold()).add(mostOutLabel.getText()))
+                .add(new Paragraph().add(new Text("Aeropuerto con menos salidas: ").setBold()).add(lessOutLabel.getText()))
+                .add(new Paragraph().add(new Text("Aeropuerto con más llegadas: ").setBold()).add(mostInLabel.getText()))
+                .add(new Paragraph().add(new Text("Aeropuerto con menos llegadas: ").setBold()).add(lessInLabel.getText()))
+                .setFontSize(12).setMarginBottom(20));
+
+            document.add(new Paragraph("Gráfico de Vuelos por Aeropuerto")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBold()
+                .setFontSize(14));
+            
+            ImageData imageData = ImageDataFactory.create(tempImageFile.toURI().toURL());
+            Image pdfImage = new Image(imageData);
+            pdfImage.setAutoScale(true);
+            pdfImage.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            document.add(pdfImage);
+
+            document.close();
+            tempImageFile.delete();
+
+            UtilController.showAlert(Alert.AlertType.INFORMATION, "Éxito", "Reporte generado correctamente en tu carpeta personal.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            UtilController.showAlert(Alert.AlertType.ERROR, "Error", "No se pudo generar el PDF.");
+        }
     }
     
 }

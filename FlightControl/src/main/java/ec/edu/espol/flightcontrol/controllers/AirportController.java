@@ -8,16 +8,15 @@ import ec.edu.espol.flightcontrol.models.*;
 import ec.edu.espol.flightcontrol.utils.*;
 import ec.edu.espol.flightcontrol.App;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,21 +31,38 @@ import javafx.scene.layout.RowConstraints;
 public class AirportController implements GraphSubscriber {
     
     @FXML
-    private GridPane airportGrid;
+    GridPane airportGrid;
+    
+    @FXML
+    ComboBox<String> orderCombo;
 
     @FXML
     public void initialize() {
+        setupComboBoxes();
         populateGrid();
     }
-
+    
+    private void setupComboBoxes() {
+        orderCombo.getItems().setAll("Código", "Nombre", "Ciudad", "Pais");
+        orderCombo.setValue("Código");
+        orderCombo.setOnAction(event -> populateGrid());
+    }
+    
     private void populateGrid() {
         List<Airport> sortedAirports = getSortedAirportList();
+        if (sortedAirports.isEmpty()) return;
 
         // Limpiar el grid y solo dejar el encabezado de la tabla
         airportGrid.getChildren().removeIf(node -> {
             Integer rowIndex = GridPane.getRowIndex(node);
             return rowIndex != null && rowIndex > 0;
         });
+        
+        airportGrid.getRowConstraints().clear();
+        
+        RowConstraints headerRowConst = new RowConstraints();
+        headerRowConst.setMinHeight(50);
+        airportGrid.getRowConstraints().add(headerRowConst);
 
         int rowIndex = 1; 
         for (Airport airport : sortedAirports) {
@@ -94,18 +110,15 @@ public class AirportController implements GraphSubscriber {
     
     private List<Airport> getSortedAirportList() {
         List<Airport> sortedAirports = new LinkedList<>();
+        Comparator<Airport> cmp = getAirportComparator();
         
         GraphAL<Airport, Flight> currentGraph = GraphContext.getCurrentGraph();
         if (currentGraph == null) return sortedAirports;
 
-        PriorityQueue<Airport> airportQueue = new PriorityQueue<>(new AirportComparator());
-
-        for (Vertex<Airport, Flight> vertex : currentGraph.getVertexs()) {
-            airportQueue.offer(vertex.getContent());
-        }
+        Heap<Airport> heap = new Heap<>(cmp, true, currentGraph.getVertexContents());
         
-        while (!airportQueue.isEmpty()) {
-            sortedAirports.add(airportQueue.poll());
+        while (!heap.isEmpty()) {
+            sortedAirports.add(heap.poll());
         }
         
         return sortedAirports;
@@ -157,4 +170,48 @@ public class AirportController implements GraphSubscriber {
     public void update() {
         populateGrid();
     }
+    
+    private Comparator<Airport> getAirportComparator() {
+        String order = orderCombo.getValue();
+        if (order == null) order = "";
+        
+        Comparator<Airport> cmpByCode = (Airport a1, Airport a2) -> {
+            return a2.getCode().compareTo(a1.getCode());
+        };
+        
+        Comparator<Airport> cmpByName = (Airport a1, Airport a2) -> {
+            return a2.getName().compareTo(a1.getName());
+        };
+        
+        Comparator<Airport> cmpByCity = (Airport a1, Airport a2) -> {
+            return a2.getCity().compareTo(a1.getCity());
+        };
+        
+        Comparator<Airport> cmpByCountry = (Airport a1, Airport a2) -> {
+            return a2.getCountry().compareTo(a1.getCountry());
+        };
+        
+        Comparator<Airport> cmp = cmpByCode;
+        
+        switch (order) {
+            case "Código":
+                cmp = cmpByCode;
+                break;
+            case "Nombre":
+                cmp = cmpByName;
+                break;
+            case "Ciudad":
+                cmp = cmpByCity;
+                break;
+            case "Pais":
+                cmp = cmpByCountry;
+                break;
+            default:
+                cmp = cmpByCode;
+                break;                
+        }
+        
+        return cmp;
+    }
+
 }

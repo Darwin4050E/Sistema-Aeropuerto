@@ -9,7 +9,7 @@ import ec.edu.espol.flightcontrol.models.BSTree;
 
 /**
  *
- * @author gabriel
+ * @author Grupo 1 - P1
  */
 public class Util {
     public static String extractAirportCode(String airportStr) {

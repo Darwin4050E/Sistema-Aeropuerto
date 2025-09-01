@@ -60,8 +60,8 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="originCombo" prefHeight="35.0" prefWidth="350.0" promptText="Elige el aeropuerto de origen" GridPane.columnIndex="1" />
-                  <ComboBox fx:id="targetCombo" prefHeight="35.0" prefWidth="350.0" promptText="Elige el aeropuerto de destino" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="originCombo" prefHeight="35.0" prefWidth="450.0" promptText="Elige el aeropuerto de origen" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="targetCombo" prefHeight="35.0" prefWidth="450.0" promptText="Elige el aeropuerto de destino" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Button fx:id="findBtn" contentDisplay="CENTER" mnemonicParsing="false" onAction="#findRoute" text="Buscar Ruta Más Corta" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
                         <Font size="17.0" />

@@ -81,7 +81,10 @@ public class MainViewController implements GraphSubscriber {
             graph.setCellsMovable(false);
             graph.setCellsResizable(false);
             graph.setCellsEditable(false);
-
+            graph.setCellsBendable(false);  
+            graph.setEdgeLabelsMovable(false);
+            graph.setCellsDisconnectable(false);
+            
             mxHierarchicalLayout layout = new mxHierarchicalLayout(graph);
             layout.execute(graph.getDefaultParent());
 
@@ -90,6 +93,7 @@ public class MainViewController implements GraphSubscriber {
             graphComponent.setBackground(java.awt.Color.WHITE);
             graphComponent.getViewport().setBackground(java.awt.Color.WHITE);
             graphComponent.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+            graphComponent.setDragEnabled(false);
             
             attachNodeClickHandler(graphComponent, graph, flightGraph);
                     
